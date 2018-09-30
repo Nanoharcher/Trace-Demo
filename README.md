@@ -1,6 +1,6 @@
 # trace-demo
 
-> trace homepage demo
+> Trace Homepage Demo
 
 ## Build Setup
 
