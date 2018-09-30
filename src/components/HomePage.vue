@@ -36,4 +36,7 @@
     margin: 0;
     padding: 0;
   }
+  .el-main {
+    margin-bottom: 60px;
+  }
 </style>

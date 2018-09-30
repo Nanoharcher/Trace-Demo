@@ -1574,8 +1574,7 @@
       },
       onSelect (option) {
         this.$nextTick(function () {
-          // console.log(this.selected.length)
-          // console.log(option.value)
+          table.addData(tabledata)
           table.showColumn(option.value)
         })
       },
@@ -1589,6 +1588,7 @@
             for (let i = 0; i < columns.length; i++) {
               table.hideColumn(columns[i])
             }
+            table.clearData()
           }
         })
       },
@@ -1605,6 +1605,7 @@
           table.hideColumn(columns[i])
         }
         this.selected = []
+        table.clearData()
       }
     },
     data () {
