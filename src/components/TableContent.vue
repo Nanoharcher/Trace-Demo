@@ -1594,6 +1594,7 @@
       },
       selectAll () {
         this.selected = tableheader
+        table.addData(tabledata)
         var columns = this.selected.map((item) => item.value)
         for (let i = 0; i < columns.length; i++) {
           table.showColumn(columns[i])
