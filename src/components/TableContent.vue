@@ -23,6 +23,7 @@
 <script>
   import Multiselect from 'vue-multiselect'
   import 'magnific-popup/dist/magnific-popup.css'
+  import 'tabulator-tables/dist/css/tabulator.min.css'
   var Tabulator = require('tabulator-tables')
   var table
   var tableheader = [
