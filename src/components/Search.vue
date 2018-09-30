@@ -99,7 +99,7 @@
     margin-top:20px;
   }
   .time-selector .el-input{
-    width: 100%;
+    width: 100%!important;
   }
   .input-with-select .el-input-group__prepend {
     background-color: #fff;
