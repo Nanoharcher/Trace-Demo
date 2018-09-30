@@ -1,0 +1,74 @@
+<template>
+  <div>
+    <el-menu :default-active="activeIndex" class="navigation-wrapper" mode="horizontal" @select="handleSelect"
+             background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+      <el-menu-item index="1">Trace平台</el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">机器学习</template>
+        <el-menu-item index="2-1">大盘波动追查指标监控</el-menu-item>
+        <el-menu-item index="2-2">Predictor日志检索</el-menu-item>
+        <el-menu-item index="2-3">粗排日志检索</el-menu-item>
+        <el-submenu index="2-4">
+          <template slot="title">机器学习导航</template>
+          <el-menu-item index="2-4-1">测试选项</el-menu-item>
+          <el-menu-item index="2-4-2">测试选项</el-menu-item>
+          <el-menu-item index="2-4-3">测试选项</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">在线模块</template>
+        <el-menu-item index="3-1">下发点展日志</el-menu-item>
+        <el-menu-item index="3-2">队列召回日志</el-menu-item>
+        <el-menu-item index="3-3">bs/urs召回日志</el-menu-item>
+        <el-menu-item index="3-4">在线日志</el-menu-item>
+      </el-submenu>
+      <el-submenu index="4">
+        <template slot="title">用户模型</template>
+        <el-menu-item index="4-1">用户模型扫码</el-menu-item>
+        <el-menu-item index="4-2">用户模型</el-menu-item>
+      </el-submenu>
+      <el-submenu index="5">
+        <template slot="title">资源流</template>
+        <el-menu-item index="5-1">正排数据查询</el-menu-item>
+        <el-menu-item index="5-2">数据流查询</el-menu-item>
+      </el-submenu>
+      <el-submenu index="6">
+        <template slot="title">Debug</template>
+        <el-menu-item index="6-1">Debug</el-menu-item>
+      </el-submenu>
+      <el-submenu index="7">
+        <template slot="title">实验室</template>
+        <el-menu-item index="7-1">拒绝自动追查Beta</el-menu-item>
+        <el-menu-item index="7-2">分发BadCase诊断</el-menu-item>
+      </el-submenu>
+      <el-submenu index="8">
+        <template slot="title">工具箱</template>
+        <el-menu-item index="7-1">OpenAPI文档</el-menu-item>
+        <el-menu-item index="7-2">Trace帮助</el-menu-item>
+        <el-menu-item index="7-3">截屏定位cuid</el-menu-item>
+        <el-menu-item index="7-4">nid批量查询</el-menu-item>
+        <el-menu-item index="7-5">用户命中小流量</el-menu-item>
+      </el-submenu>
+    </el-menu>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'Navigation',
+    data () {
+      return {
+        activeIndex: '1'
+      }
+    },
+    methods: {
+      handleSelect (key, keyPath) {
+        console.log(key, keyPath)
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>
