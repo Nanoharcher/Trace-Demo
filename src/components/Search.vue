@@ -77,7 +77,7 @@
   .search-wrapper{
     width: 100%;
     padding: 10px;
-    margin-top:20px;
+    margin-top:80px;
     text-align:center;
     border: 1px solid rgba(7,17,27,0.2);
     background-color: #f2f2f2;
@@ -115,34 +115,29 @@
     margin: 5px 0;
     border: 1px solid rgba(7,17,27,0.2);
   }
-  @media screen and (max-width: 1440px) {
-    .search-wrapper{
-      margin-top: 60px;
-    }
-  }
-  @media screen and (max-width: 1024px) {
-    .search-wrapper{
-      margin-top: 80px;
-    }
-  }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1200px) {
     .search-wrapper{
       margin-top: 120px;
     }
   }
-  @media screen and (max-width: 500px) {
-    .search-wrapper{
-      margin-top: 170px;
-    }
-  }
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 1024px) {
     .search-wrapper{
       margin-top: 180px;
     }
   }
-  @media screen and (max-width: 350px) {
+  @media screen and (max-width: 768px) {
     .search-wrapper{
       margin-top: 200px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .search-wrapper{
+      margin-top: 230px;
+    }
+  }
+  @media screen and (max-width: 425px) {
+    .search-wrapper{
+      margin-top: 300px;
     }
   }
 </style>
