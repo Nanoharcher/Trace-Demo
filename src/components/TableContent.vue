@@ -2,7 +2,7 @@
     <div class="table-wrapper table-responsive">
       <!--<div class="table-title">搜索结果</div>-->
       <!--<div class="divider"></div>-->
-      <table id="table" data-height="1000" data-show-columns="true"></table>
+      <table id="table" data-height="1000" data-show-columns="false"></table>
     </div>
 </template>
 
@@ -1587,7 +1587,7 @@
         $table.bootstrapTable('destroy').bootstrapTable({
           columns: tableheader,
           data: tabledata,
-          search: true,
+          // search: true,
           pagination: true,
           toolbar: '.toolbar',
           fixedColumns: true,
@@ -1607,7 +1607,7 @@
         $table.bootstrapTable('destroy').bootstrapTable({
           columns: tableheader,
           data: tabledata,
-          search: true,
+          // search: true,
           pagination: true,
           toolbar: '.toolbar',
           fixedColumns: false,
@@ -1633,7 +1633,6 @@
     padding: 10px;
     margin-top:20px;
     box-sizing:border-box;
-    border: 1px solid rgba(7,17,27,0.2);
   }
   .table-title{
     font-size:24px;

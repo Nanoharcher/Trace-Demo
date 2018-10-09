@@ -10,17 +10,17 @@
           <Navigation></Navigation>
         </div>
         <div class="login-wrapper">
-          <i class="glyphicon glyphicon-user"></i>
-          <span class="login-user">{{this.user}}</span>
+
           <div class="login-button-wrapper">
-            <el-dropdown class="login-dropdown">
-              <el-button icon="el-icon-setting" circle class="login-button"></el-button>
+            <el-dropdown class="login-dropdown" trigger="click" size="mini" split-button type="success">
+              <!--<i class="glyphicon glyphicon-user"></i>-->
+              <span class="login-username">{{this.user}}</span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>测试菜单</el-dropdown-item>
-                <el-dropdown-item>测试菜单</el-dropdown-item>
-                <el-dropdown-item>测试菜单</el-dropdown-item>
-                <el-dropdown-item>测试菜单</el-dropdown-item>
-                <el-dropdown-item>测试菜单</el-dropdown-item>
+                <el-dropdown-item>帮助文档</el-dropdown-item>
+                <el-dropdown-item>帮助文档</el-dropdown-item>
+                <el-dropdown-item>帮助文档</el-dropdown-item>
+                <el-dropdown-item>帮助文档</el-dropdown-item>
+                <el-dropdown-item>帮助文档</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -95,35 +95,27 @@
     cursor: pointer;
     padding: 0 20px 0 20px;
   }
-  .login-wrapper i{
-    font-size: 28px;
-    line-height: 60px;
+  .login-button-wrapper i{
     vertical-align: top;
     color: #fff;
   }
-  .login-user{
-    font-size: 16px;
-    line-height: 60px;
-    margin: 0;
+  .login-button-wrapper .login-username{
     vertical-align: top;
     color: #fff;
   }
   .login-button-wrapper{
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 60px;
     vertical-align: top;
   }
-  .login-button{
-    border-radius: 0;
-    padding:6px;
-    font-size: 20px;
-    margin-left:10px;
+  .login-dropdown{
+    vertical-align: top;
   }
   .navigation-wrapper{
     flex: 1;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1250px) {
     .header-wrapper{
       display: inline-block;
     }

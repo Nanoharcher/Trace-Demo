@@ -90,12 +90,12 @@
   }
   @media screen and (max-width: 1440px) {
     .el-menu{
-      padding: 0 20px;
+      padding: 0 60px;
     }
   }
   @media screen and (max-width: 1024px) {
     .el-menu{
-      padding: 0 20px;
+      padding: 0;
     }
   }
 </style>
