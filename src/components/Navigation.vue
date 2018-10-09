@@ -10,9 +10,9 @@
         <el-menu-item index="2-3">粗排日志检索</el-menu-item>
         <el-submenu index="2-4">
           <template slot="title">机器学习导航</template>
-          <el-menu-item index="2-4-1">测试选项</el-menu-item>
-          <el-menu-item index="2-4-2">测试选项</el-menu-item>
-          <el-menu-item index="2-4-3">测试选项</el-menu-item>
+          <el-menu-item index="2-4-1">测试选项1</el-menu-item>
+          <el-menu-item index="2-4-2">测试选项2</el-menu-item>
+          <el-menu-item index="2-4-3">测试选项3</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-submenu index="3">
