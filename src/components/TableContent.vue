@@ -1578,12 +1578,7 @@
     mounted () {
       var $table = $('#table')
       var tableHeader = $('#table th .th-inner')
-      $('head').append('<style>.th-inner{color: #909399;font-weight:700;}.fixed-table-pagination .dropdown-menu{z-index:88}.pagination-detail{margin-right:20px}</style>')
-      $(document).ready(function () {
-        $('.fixed-table-toolbar').prepend($('.fixed-table-pagination'))
-        $('.fixed-table-pagination').css('display', 'inline-block')
-        $('.fixed-table-pagination .btn-group').removeClass('dropup')
-      })
+      $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
       if (document.body.clientWidth > 1024) {
         $table.bootstrapTable('destroy').bootstrapTable({
           columns: tableheader,
@@ -1594,6 +1589,7 @@
           fixedColumns: true,
           paginationPreText: 'Previous',
           paginationNextText: 'Next',
+          paginationVAlign: 'top',
           pageSize: 25,
           fixedNumber: 1
         })
@@ -1613,6 +1609,7 @@
           fixedColumns: false,
           paginationPreText: 'Previous',
           paginationNextText: 'Next',
+          paginationVAlign: 'top',
           pageSize: 25
         })
         for (let i = 0; i < tableHeader.length; i++) {
