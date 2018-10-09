@@ -1563,7 +1563,11 @@
     let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
     var template = ''
     for (let i = 0; i < buttonText.length; i++) {
-      template += '<button class="el-button el-button--warning el-button--mini" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
+      if (buttonText[i] === '操作1') {
+        template += '<button class="el-button el-button--default el-button--mini" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
+      } else {
+        template += '<button class="el-button el-button--danger el-button--mini" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
+      }
     }
     return template
   }
