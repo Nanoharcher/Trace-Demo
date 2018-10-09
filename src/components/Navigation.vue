@@ -1,6 +1,6 @@
 <template>
   <div class="navigation-wrapper">
-    <el-menu :default-active="activeIndex" class="navigation-content" mode="horizontal" @select="handleSelect"
+    <el-menu :default-active="activeIndex" class="navigation-content" mode="horizontal" @select.stop="handleSelect"
              background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
       <!--<el-menu-item index="1">Trace平台</el-menu-item>-->
       <el-submenu index="1">

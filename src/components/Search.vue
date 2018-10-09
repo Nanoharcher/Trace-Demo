@@ -130,14 +130,14 @@
       margin-top: 120px;
     }
   }
-  @media screen and (max-width: 470px) {
+  @media screen and (max-width: 500px) {
     .search-wrapper{
-      margin-top: 140px;
+      margin-top: 170px;
     }
   }
   @media screen and (max-width: 430px) {
     .search-wrapper{
-      margin-top: 170px;
+      margin-top: 180px;
     }
   }
   @media screen and (max-width: 350px) {
