@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="navigation-wrapper">
     <el-menu :default-active="activeIndex" class="navigation-wrapper" mode="horizontal" @select="handleSelect"
              background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
       <el-menu-item index="1">Trace平台</el-menu-item>
@@ -70,5 +70,35 @@
 </script>
 
 <style scoped>
-
+  .navigation-wrapper{
+    background-color: rgb(84, 92, 100);
+  }
+  .el-menu{
+    position: fixed;
+    display: flex;
+    margin: 0 auto;
+    z-index: 99;
+    width: 100%;
+    padding: 0 20%;
+    flex-wrap: wrap;
+  }
+  .el-menu-item, .el-submenu{
+    flex: 1!important;
+    max-width: 120px;
+  }
+  @media screen and (max-width: 1440px) {
+    .el-menu{
+      padding: 0 15%;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .el-menu{
+      padding: 0 10%;
+    }
+  }
+  @media screen and (max-width: 470px) {
+    .el-menu{
+      padding: 0;
+    }
+  }
 </style>

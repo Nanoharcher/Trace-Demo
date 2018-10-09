@@ -11,11 +11,14 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "bootstrap-select": "^1.13.2",
     "bootstrap-table": "^1.12.1",
     "element-ui": "^2.4.7",
+    "express": "^4.16.3",
     "jquery": "^3.3.1",
     "magnific-popup": "^1.1.0",
+    "popper.js": "^1.14.4",
     "tabulator-tables": "^4.0.1",
     "vue": "^2.5.2",
     "vue-multiselect": "^2.1.0",

@@ -1,7 +1,7 @@
 <template>
   <div class="search-wrapper">
-    <div class="search-title">搜索选项</div>
-    <div class="divider"></div>
+    <!--<div class="search-title">搜索选项</div>-->
+    <!--<div class="divider"></div>-->
     <el-row :gutter="20">
       <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
         <el-input placeholder="请输入内容" v-model="searchid" class="input-with-select">
@@ -35,12 +35,18 @@
           <el-option label="异常" value="abnormal"></el-option>
         </el-select>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item time-selector">
-        <el-date-picker v-model="starttime" type="datetime" placeholder="请选择开始时间"></el-date-picker>
+      <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9" class="search-item time-selector">
+        <el-date-picker
+          v-model="timerange"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item time-selector">
-        <el-date-picker v-model="endtime" type="datetime" placeholder="请选择结束时间"></el-date-picker>
-      </el-col>
+      <!--<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item time-selector">-->
+        <!--<el-date-picker v-model="endtime" type="datetime" placeholder="请选择结束时间"></el-date-picker>-->
+      <!--</el-col>-->
     </el-row>
     <el-row type="flex" justify="center" class="search-buttons">
       <el-button type="primary">搜索</el-button>
@@ -61,8 +67,7 @@
         title: '',
         subtitle: '',
         status: '',
-        starttime: '',
-        endtime: ''
+        timerange: [new Date(), new Date()]
       }
     }
   }
@@ -99,6 +104,9 @@
     margin-top:20px;
   }
   .time-selector .el-input{
+    width: 100%!important;
+  }
+  .el-range-editor{
     width: 100%!important;
   }
   .input-with-select .el-input-group__prepend {
