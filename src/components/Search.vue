@@ -35,7 +35,7 @@
           <el-option label="异常" value="abnormal"></el-option>
         </el-select>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9" class="search-item time-selector">
+      <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="6" class="search-item time-selector">
         <el-date-picker
           v-model="timerange"
           type="datetimerange"
@@ -44,15 +44,15 @@
           end-placeholder="结束日期">
         </el-date-picker>
       </el-col>
-      <!--<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item time-selector">-->
-        <!--<el-date-picker v-model="endtime" type="datetime" placeholder="请选择结束时间"></el-date-picker>-->
-      <!--</el-col>-->
+      <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="12" class="search-item">
+        <el-row type="flex" justify="center" class="search-buttons">
+          <el-button type="primary">搜索</el-button>
+          <el-button type="primary">重置</el-button>
+          <el-button type="primary">导出</el-button>
+        </el-row>
+      </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="search-buttons">
-      <el-button type="primary">搜索</el-button>
-      <el-button type="primary">重置</el-button>
-      <el-button type="primary">导出</el-button>
-    </el-row>
+
   </div>
 </template>
 
@@ -76,10 +76,11 @@
 <style>
   .search-wrapper{
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     margin-top:20px;
     text-align:center;
     border: 1px solid rgba(7,17,27,0.2);
+    background-color: #f2f2f2;
   }
   .search-title{
     font-size:24px;
@@ -97,12 +98,6 @@
   .single-selector .el-input{
     width: 100%;
   }
-  .input-with-select .el-input-group__prepend {
-    background-color: #fff;
-  }
-  .search-buttons{
-    margin-top:20px;
-  }
   .time-selector .el-input{
     width: 100%!important;
   }
@@ -110,20 +105,39 @@
     width: 100%!important;
   }
   .input-with-select .el-input-group__prepend {
-    background-color: #fff;
+    background-color: #f5f7fa;
+    color: #000;
+  }
+  .el-input-group .el-input-group__prepend {
+    color: #000;
   }
   .divider{
     margin: 5px 0;
     border: 1px solid rgba(7,17,27,0.2);
+  }
+  @media screen and (max-width: 1440px) {
+    .search-wrapper{
+      margin-top: 60px;
+    }
   }
   @media screen and (max-width: 1024px) {
     .search-wrapper{
       margin-top: 80px;
     }
   }
+  @media screen and (max-width: 768px) {
+    .search-wrapper{
+      margin-top: 120px;
+    }
+  }
   @media screen and (max-width: 470px) {
     .search-wrapper{
       margin-top: 140px;
+    }
+  }
+  @media screen and (max-width: 430px) {
+    .search-wrapper{
+      margin-top: 170px;
     }
   }
   @media screen and (max-width: 350px) {

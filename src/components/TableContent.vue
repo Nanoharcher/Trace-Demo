@@ -1553,10 +1553,8 @@
         data: popuptabledata,
         // search: true,
         // pagination: true,
-        toolbar: '.toolbar',
-        fixedColumns: true,
+        toolbar: '.toolbar'
         // pageSize: 50,
-        fixedNumber: 1
       })
     }
   }
@@ -1565,7 +1563,7 @@
     let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
     var template = ''
     for (let i = 0; i < buttonText.length; i++) {
-      template += '<button class="el-button el-button--primary" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
+      template += '<button class="el-button el-button--warning el-button--mini" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
     }
     return template
   }
@@ -1579,21 +1577,49 @@
     name: 'TableContent',
     mounted () {
       var $table = $('#table')
-      $table.bootstrapTable('destroy').bootstrapTable({
-        columns: tableheader,
-        data: tabledata,
-        search: true,
-        pagination: true,
-        toolbar: '.toolbar',
-        fixedColumns: true,
-        pageSize: 50,
-        fixedNumber: 1
-      })
       var tableHeader = $('#table th .th-inner')
-      for (let i = 0; i < tableHeader.length; i++) {
-        var temp = tableHeader[i].innerHTML
-        if (linkheader.includes(temp)) {
-          tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+      $('head').append('<style>.th-inner{color: #909399;font-weight:700;}.fixed-table-pagination .dropdown-menu{z-index:88}.pagination-detail{margin-right:20px}</style>')
+      $(document).ready(function () {
+        $('.fixed-table-toolbar').prepend($('.fixed-table-pagination'))
+        $('.fixed-table-pagination').css('display', 'inline-block')
+        $('.fixed-table-pagination .btn-group').removeClass('dropup')
+      })
+      if (document.body.clientWidth > 1024) {
+        $table.bootstrapTable('destroy').bootstrapTable({
+          columns: tableheader,
+          data: tabledata,
+          search: true,
+          pagination: true,
+          toolbar: '.toolbar',
+          fixedColumns: true,
+          paginationPreText: 'Previous',
+          paginationNextText: 'Next',
+          pageSize: 25,
+          fixedNumber: 1
+        })
+        for (let i = 0; i < tableHeader.length; i++) {
+          let temp = tableHeader[i].innerHTML
+          if (linkheader.includes(temp)) {
+            tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+          }
+        }
+      } else {
+        $table.bootstrapTable('destroy').bootstrapTable({
+          columns: tableheader,
+          data: tabledata,
+          search: true,
+          pagination: true,
+          toolbar: '.toolbar',
+          fixedColumns: false,
+          paginationPreText: 'Previous',
+          paginationNextText: 'Next',
+          pageSize: 25
+        })
+        for (let i = 0; i < tableHeader.length; i++) {
+          let temp = tableHeader[i].innerHTML
+          if (linkheader.includes(temp)) {
+            tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+          }
         }
       }
     }
@@ -1603,7 +1629,7 @@
 <style scoped>
   .table-wrapper{
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     margin-top:20px;
     box-sizing:border-box;
     border: 1px solid rgba(7,17,27,0.2);
@@ -1616,5 +1642,8 @@
   .divider{
     margin: 5px 0;
     border: 1px solid rgba(7,17,27,0.2);
+  }
+  .fixed-table-pagination .dropdown-menu{
+    z-index: 88px;
   }
 </style>
