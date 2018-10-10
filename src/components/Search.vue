@@ -152,7 +152,7 @@
     color: #000;
   }
   .el-form-item{
-    margin-bottom: 10px;
+    margin-bottom: 10px!important;
   }
   .divider{
     margin: 5px 0;
