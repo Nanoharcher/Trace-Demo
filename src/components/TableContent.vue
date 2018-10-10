@@ -2,7 +2,7 @@
     <div class="table-wrapper table-responsive">
       <!--<div class="table-title">搜索结果</div>-->
       <!--<div class="divider"></div>-->
-      <table id="table" data-height="1000" data-show-columns="false"></table>
+      <table id="table" data-show-columns="false"></table>
     </div>
 </template>
 
@@ -1499,74 +1499,15 @@
     }
   ]
   var linkheader = ['标题', '日志类型', 'tab页']
-
-  var popuptableheader = [
-    {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
-    {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
-    {title: '性别', field: 'gender', class: 'text-nowrap', halign: 'center', valign: 'middle'}
-  ]
-  var popuptabledata = [
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    }
-  ]
-
-  $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
-  window.popup = function (e) {
-    var data = $(e).attr('data-id')
-    if (data === '111') {
-      $.magnificPopup.open({
-        items: {
-          src: '<div class="white-popup"><table id="popup-table"></table></div>',
-          type: 'inline',
-          closeOnContentClick: true,
-          image: {
-            verticalFit: true
-          }
-        }
-      })
-      var $table = $('#popup-table')
-      $table.bootstrapTable('destroy').bootstrapTable({
-        columns: popuptableheader,
-        data: popuptabledata,
-        // search: true,
-        // pagination: true,
-        toolbar: '.toolbar'
-        // pageSize: 50,
-      })
-    }
-  }
   // eslint-disable-next-line no-unused-vars
   function buttonFormatter (value, row) {
     let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
     var template = ''
     for (let i = 0; i < buttonText.length; i++) {
       if (buttonText[i] === '操作1') {
-        template += '<button class="el-button el-button--default el-button--mini" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
+        template += '<button class="el-button el-button--default el-button--mini" data-id="111">' + buttonText[i] + '</button>'
       } else {
-        template += '<button class="el-button el-button--danger el-button--mini" data-id="111" onclick="popup(this)">' + buttonText[i] + '</button>'
+        template += '<button class="el-button el-button--danger el-button--mini" data-id="222">' + buttonText[i] + '</button>'
       }
     }
     return template
@@ -1579,14 +1520,47 @@
 
   export default {
     name: 'TableContent',
+    data () {
+      return {
+        tableheader: tableheader,
+        tabledata: tabledata
+      }
+    },
+    created () {
+      $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
+      // window.popup = function (e) {
+      //   var data = $(e).attr('data-id')
+      //   if (data === '111') {
+      //     $.magnificPopup.open({
+      //       items: {
+      //         src: '<div class="white-popup"><table id="popup-table"></table></div>',
+      //         type: 'inline',
+      //         closeOnContentClick: true,
+      //         image: {
+      //           verticalFit: true
+      //         }
+      //       }
+      //     })
+      //     var $table = $('#popup-table')
+      //     $table.bootstrapTable('destroy').bootstrapTable({
+      //       columns: this.popuptableheader,
+      //       data: this.popuptabledata,
+      //       // search: true,
+      //       // pagination: true,
+      //       toolbar: '.toolbar'
+      //       // pageSize: 50,
+      //     })
+      //   }
+      // }
+    },
     mounted () {
       var $table = $('#table')
       var tableHeader = $('#table th .th-inner')
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
       if (document.body.clientWidth > 1024) {
         $table.bootstrapTable('destroy').bootstrapTable({
-          columns: tableheader,
-          data: tabledata,
+          columns: this.tableheader,
+          data: this.tabledata,
           // search: true,
           pagination: true,
           toolbar: '.toolbar',
@@ -1594,7 +1568,7 @@
           paginationPreText: 'Previous',
           paginationNextText: 'Next',
           paginationVAlign: 'top',
-          pageSize: 25,
+          pageSize: 100,
           fixedNumber: 1
         })
         for (let i = 0; i < tableHeader.length; i++) {
@@ -1605,8 +1579,8 @@
         }
       } else {
         $table.bootstrapTable('destroy').bootstrapTable({
-          columns: tableheader,
-          data: tabledata,
+          columns: this.tableheader,
+          data: this.tabledata,
           // search: true,
           pagination: true,
           toolbar: '.toolbar',
@@ -1614,7 +1588,7 @@
           paginationPreText: 'Previous',
           paginationNextText: 'Next',
           paginationVAlign: 'top',
-          pageSize: 25
+          pageSize: 100
         })
         for (let i = 0; i < tableHeader.length; i++) {
           let temp = tableHeader[i].innerHTML
@@ -1623,6 +1597,64 @@
           }
         }
       }
+      console.log(this.popuptableheader)
+      console.log(this.popuptabledata)
+      $('#table button[data-id]').click(function () {
+        var dataID = $(this).attr('data-id')
+        if (dataID === '111') {
+          var popuptableheader = [
+            {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+            {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+            {title: '性别', field: 'gender', class: 'text-nowrap', halign: 'center', valign: 'middle'}
+          ]
+          var popuptabledata = [
+            {
+              name: '马旭骁',
+              age: '25',
+              gender: '男'
+            },
+            {
+              name: '马旭骁',
+              age: '25',
+              gender: '男'
+            },
+            {
+              name: '马旭骁',
+              age: '25',
+              gender: '男'
+            },
+            {
+              name: '马旭骁',
+              age: '25',
+              gender: '男'
+            },
+            {
+              name: '马旭骁',
+              age: '25',
+              gender: '男'
+            }
+          ]
+          $.magnificPopup.open({
+            items: {
+              src: '<div class="white-popup"><table id="popup-table"></table></div>',
+              type: 'inline',
+              closeOnContentClick: true,
+              image: {
+                verticalFit: true
+              }
+            }
+          })
+          var $table = $('#popup-table')
+          $table.bootstrapTable('destroy').bootstrapTable({
+            columns: popuptableheader,
+            data: popuptabledata,
+            // search: true,
+            // pagination: true,
+            toolbar: '.toolbar'
+            // pageSize: 50,
+          })
+        }
+      })
     }
   }
 </script>
@@ -1631,7 +1663,6 @@
   .table-wrapper{
     width: 100%;
     padding: 10px;
-    margin-top:20px;
     box-sizing:border-box;
   }
   .table-title{
@@ -1644,6 +1675,6 @@
     border: 1px solid rgba(7,17,27,0.2);
   }
   .fixed-table-pagination .dropdown-menu{
-    z-index: 88px;
+    z-index: 88;
   }
 </style>

@@ -3,7 +3,7 @@
     <el-container>
       <el-header class="header-wrapper">
         <div class="logo-wrapper" onclick="document.location.href='https://www.baidu.com'">
-          <i class="glyphicon glyphicon-inbox"></i>
+          <!--<i class="glyphicon glyphicon-inbox"></i>-->
           <span class="logo-title">Trace平台</span>
         </div>
         <div class="navigation-wrapper">
@@ -89,6 +89,7 @@
     margin: 0;
     vertical-align: top;
     color: #fff;
+    font-weight: 700;
   }
   .login-wrapper{
     background-color: rgb(84, 92, 100);

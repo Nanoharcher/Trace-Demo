@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
     "bootstrap-select": "^1.13.2",
     "bootstrap-table": "^1.12.1",

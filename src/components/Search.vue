@@ -2,7 +2,7 @@
   <div class="search-wrapper">
     <!--<div class="search-title">搜索选项</div>-->
     <!--<div class="divider"></div>-->
-    <el-form ref="form" :model="form" label-width="80px" label-position="right">
+    <el-form ref="form" :model="form" label-width="80px" label-position="left">
       <el-row :gutter="20">
         <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
           <el-form-item label="ID">
@@ -52,7 +52,7 @@
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9" class="search-item">
           <el-row type="flex" justify="center" class="search-buttons">
-            <el-button type="primary">搜索</el-button>
+            <el-button type="primary" @click="onSubmit">搜索</el-button>
             <el-button type="primary">重置</el-button>
             <el-button type="primary">导出</el-button>
           </el-row>
@@ -63,6 +63,30 @@
 </template>
 
 <script>
+  function getTime (obj) {
+    var year = obj.getFullYear()
+    var mon = obj.getMonth() + 1
+    var day = obj.getDate()
+    var hours = obj.getHours()
+    var minu = obj.getMinutes()
+    var sec = obj.getSeconds()
+    if (mon < 10) {
+      mon = '0' + mon
+    }
+    if (day < 10) {
+      day = '0' + day
+    }
+    if (hours < 10) {
+      hours = '0' + hours
+    }
+    if (minu < 10) {
+      minu = '0' + minu
+    }
+    if (sec < 10) {
+      sec = '0' + sec
+    }
+    return year + '-' + mon + '-' + day + ' ' + hours + ':' + minu + ':' + sec
+  }
   export default {
     name: 'Search',
     data () {
@@ -77,6 +101,22 @@
           timerange: [new Date(), new Date()]
         }
       }
+    },
+    methods: {
+      onSubmit () {
+        this.form['startTime'] = getTime(this.form.timerange[0])
+        this.form['endTime'] = getTime(this.form.timerange[1])
+        console.log(this.form)
+        // this.$http({
+        //   method: 'post',
+        //   url: 'http://ftrace.baidu.com/trace',
+        //   data: this.form
+        // }).then(function (res) {
+        //   console.log(res)
+        // }).catch(function (err) {
+        //   console.log(err)
+        // })
+      }
     }
   }
 </script>
@@ -84,7 +124,7 @@
 <style>
   .search-wrapper{
     width: 100%;
-    padding: 10px;
+    padding: 10px 20px;
     margin-top:60px;
     text-align:center;
     background-color: #f2f2f2;
@@ -92,9 +132,6 @@
   .search-title{
     font-size:24px;
     font-weight:700;
-  }
-  .search-item{
-    margin: 10px 0;
   }
   .el-select .el-input {
     width: 100px;
@@ -113,6 +150,9 @@
   }
   .el-input-group .el-input-group__prepend {
     color: #000;
+  }
+  .el-form-item{
+    margin-bottom: 10px;
   }
   .divider{
     margin: 5px 0;

@@ -7,10 +7,12 @@ import ElementUI from 'element-ui'
 import 'jquery'
 import 'element-ui/lib/theme-chalk/index.css'
 import MagnificPopup from 'magnific-popup'
+import axios from 'axios'
 
 Vue.use(ElementUI)
 Vue.use(MagnificPopup)
 Vue.config.productionTip = false
+Vue.prototype.$http = axios
 
 /* eslint-disable no-new */
 new Vue({
