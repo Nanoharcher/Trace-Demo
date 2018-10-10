@@ -1498,6 +1498,38 @@
       callbackClickSource: '[操作1,操作2]'
     }
   ]
+  var popuptableheader = [
+    {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '性别', field: 'gender', class: 'text-nowrap', halign: 'center', valign: 'middle'}
+  ]
+  var popuptabledata = [
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    }
+  ]
   var linkheader = ['标题', '日志类型', 'tab页']
   // eslint-disable-next-line no-unused-vars
   function buttonFormatter (value, row) {
@@ -1505,9 +1537,9 @@
     var template = ''
     for (let i = 0; i < buttonText.length; i++) {
       if (buttonText[i] === '操作1') {
-        template += '<button class="el-button el-button--default el-button--mini" data-id="111">' + buttonText[i] + '</button>'
+        template += '<button onclick="popupContent(this)" class="el-button el-button--default el-button--mini popup-button" data-id="111">' + buttonText[i] + '</button>'
       } else {
-        template += '<button class="el-button el-button--danger el-button--mini" data-id="222">' + buttonText[i] + '</button>'
+        template += '<button onclick="popupContent(this)" class="el-button el-button--danger el-button--mini remove-button" data-id="222">' + buttonText[i] + '</button>'
       }
     }
     return template
@@ -1523,37 +1555,44 @@
     data () {
       return {
         tableheader: tableheader,
-        tabledata: tabledata
+        tabledata: tabledata,
+        popuptableheader: popuptableheader,
+        popuptabledata: popuptabledata
+      }
+    },
+    methods: {
+      popup (e) {
+        var data = $(e).attr('data-id')
+        if (data === '111') {
+          $.magnificPopup.open({
+            items: {
+              src: '<div class="white-popup"><table id="popup-table"></table></div>',
+              type: 'inline',
+              closeOnContentClick: true,
+              image: {
+                verticalFit: true
+              }
+            }
+          })
+          var $table = $('#popup-table')
+          $table.bootstrapTable('destroy').bootstrapTable({
+            columns: this.popuptableheader,
+            data: this.popuptabledata,
+            // search: true,
+            // pagination: true,
+            toolbar: '.toolbar'
+            // pageSize: 50,
+          })
+        }
       }
     },
     created () {
       $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
-      // window.popup = function (e) {
-      //   var data = $(e).attr('data-id')
-      //   if (data === '111') {
-      //     $.magnificPopup.open({
-      //       items: {
-      //         src: '<div class="white-popup"><table id="popup-table"></table></div>',
-      //         type: 'inline',
-      //         closeOnContentClick: true,
-      //         image: {
-      //           verticalFit: true
-      //         }
-      //       }
-      //     })
-      //     var $table = $('#popup-table')
-      //     $table.bootstrapTable('destroy').bootstrapTable({
-      //       columns: this.popuptableheader,
-      //       data: this.popuptabledata,
-      //       // search: true,
-      //       // pagination: true,
-      //       toolbar: '.toolbar'
-      //       // pageSize: 50,
-      //     })
-      //   }
-      // }
     },
     mounted () {
+      window['popupContent'] = (e) => {
+        this.popup(e)
+      }
       var $table = $('#table')
       var tableHeader = $('#table th .th-inner')
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
@@ -1597,64 +1636,6 @@
           }
         }
       }
-      console.log(this.popuptableheader)
-      console.log(this.popuptabledata)
-      $('#table button[data-id]').click(function () {
-        var dataID = $(this).attr('data-id')
-        if (dataID === '111') {
-          var popuptableheader = [
-            {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
-            {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
-            {title: '性别', field: 'gender', class: 'text-nowrap', halign: 'center', valign: 'middle'}
-          ]
-          var popuptabledata = [
-            {
-              name: '马旭骁',
-              age: '25',
-              gender: '男'
-            },
-            {
-              name: '马旭骁',
-              age: '25',
-              gender: '男'
-            },
-            {
-              name: '马旭骁',
-              age: '25',
-              gender: '男'
-            },
-            {
-              name: '马旭骁',
-              age: '25',
-              gender: '男'
-            },
-            {
-              name: '马旭骁',
-              age: '25',
-              gender: '男'
-            }
-          ]
-          $.magnificPopup.open({
-            items: {
-              src: '<div class="white-popup"><table id="popup-table"></table></div>',
-              type: 'inline',
-              closeOnContentClick: true,
-              image: {
-                verticalFit: true
-              }
-            }
-          })
-          var $table = $('#popup-table')
-          $table.bootstrapTable('destroy').bootstrapTable({
-            columns: popuptableheader,
-            data: popuptabledata,
-            // search: true,
-            // pagination: true,
-            toolbar: '.toolbar'
-            // pageSize: 50,
-          })
-        }
-      })
     }
   }
 </script>
