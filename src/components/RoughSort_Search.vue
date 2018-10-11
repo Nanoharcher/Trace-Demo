@@ -5,40 +5,33 @@
     <el-form ref="form" :model="form" label-width="80px" label-position="left">
       <el-row :gutter="20">
         <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
-          <el-form-item label="ID">
-            <el-input placeholder="请输入内容" v-model="form.searchid" class="input-with-select">
-              <el-select v-model="form.select" slot="prepend" placeholder="请选择">
-                <el-option label="uid" value="uid"></el-option>
-                <el-option label="articleid" value="articleid"></el-option>
-              </el-select>
-            </el-input>
+          <el-form-item label="cuid/uid">
+            <el-input v-model="form.id" placeholder="请输入cuid/uid"></el-input>
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
-          <el-form-item label="URL">
-            <el-input v-model="form.url" placeholder="请输入URL"></el-input>
+          <el-form-item label="nid">
+            <el-input v-model="form.nid" placeholder="请输入nid"></el-input>
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
-          <el-form-item label="标题">
-            <el-input v-model="form.title" placeholder="请输入标题"></el-input>
+          <el-form-item label="类型">
+            <el-select v-model="form.type" placeholder="请输入类型" class="single-selector">
+              <el-option label="测试" value="test1"></el-option>
+              <el-option label="测试" value="test2"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
-          <el-form-item label="副标题">
-            <el-input v-model="form.subtitle" placeholder="请输入副标题"></el-input>
+          <el-form-item label="队列">
+            <el-select v-model="form.queue" placeholder="请选择队列" class="single-selector">
+              <el-option label="测试" value="test1"></el-option>
+              <el-option label="测试" value="test2"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
-          <el-form-item label="状态">
-            <el-select v-model="form.status" placeholder="请选择状态" class="single-selector">
-              <el-option label="正常" value="normal"></el-option>
-              <el-option label="异常" value="abnormal"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
         <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9" class="search-item time-selector">
           <el-form-item label="日期时间">
             <el-date-picker
@@ -50,11 +43,10 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9" class="search-item">
-          <el-row type="flex" justify="center" class="search-buttons">
-            <el-button type="primary" @click="onSubmit">搜索</el-button>
+        <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
+          <el-row class="search-buttons">
+            <el-button type="primary" @click="onSubmit">查询</el-button>
             <el-button type="primary">重置</el-button>
-            <el-button type="primary">导出</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -92,12 +84,11 @@
     data () {
       return {
         form: {
-          searchid: '',
-          select: 'uid',
-          url: '',
-          title: '',
-          subtitle: '',
-          status: '',
+          id: '',
+          nid: '',
+          type: '',
+          searchresource: 'Online',
+          queue: '',
           timerange: [new Date(), new Date()]
         }
       }

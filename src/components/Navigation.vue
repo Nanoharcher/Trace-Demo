@@ -1,15 +1,15 @@
 <template>
   <div class="navigation-wrapper">
-    <el-menu :default-active="activeIndex" class="navigation-content" mode="horizontal" @select="handleSelect"
-             background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+    <el-menu :default-active="activeIndex" class="navigation-content" mode="horizontal"
+             background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
       <!--<el-menu-item index="1">Trace平台</el-menu-item>-->
       <el-submenu index="1">
         <template slot="title"><span class="navigation-title">机器学习</span></template>
-        <el-menu-item index="1-1">大盘波动追查指标监控</el-menu-item>
-        <el-menu-item index="1-2">Predictor日志检索</el-menu-item>
-        <el-menu-item index="1-3">粗排日志检索</el-menu-item>
+        <el-menu-item index><a href="http://sia.baidu.com/p/feed#/conf/result/dashboardgroup~name=_1760289&menuId=150206" target="_blank">大盘波动追查指标监控</a></el-menu-item>
+        <el-menu-item index="/mlSearch">Predictor日志检索</el-menu-item>
+        <el-menu-item index="/roughsort">粗排日志检索</el-menu-item>
         <el-submenu index="1-4">
-          <template slot="title">机器学习导航</template>
+          <template slot="title"><a href="http://ftrace.baidu.com/ml/index.html" target="_blank">机器学习导航</a></template>
           <el-menu-item index="1-4-1">测试选项1</el-menu-item>
           <el-menu-item index="1-4-2">测试选项2</el-menu-item>
           <el-menu-item index="1-4-3">测试选项3</el-menu-item>
@@ -61,20 +61,17 @@
         activeIndex: '1'
       }
     },
-    methods: {
-      handleSelect (key, keyPath) {
-        console.log(key, keyPath)
-      }
-    }
+    methods: {}
   }
 </script>
 
 <style scoped>
-  .navigation-wrapper{
+  .navigation-wrapper {
     background-color: rgb(84, 92, 100);
     width: 100%;
   }
-  .el-menu{
+
+  .el-menu {
     display: flex;
     margin: 0 auto;
     z-index: 99;
@@ -82,19 +79,27 @@
     padding: 0 10%;
     flex-wrap: wrap;
   }
-  .el-menu-item, .el-submenu{
-    flex: 1!important;
+  .el-menu a{
+    text-decoration: none;
+    color: #fff
   }
-  .navigation-title{
+
+  .el-menu-item, .el-submenu {
+    flex: 1 !important;
+  }
+
+  .navigation-title {
     font-size: 16px;
   }
+
   @media screen and (max-width: 1440px) {
-    .el-menu{
+    .el-menu {
       padding: 0 60px;
     }
   }
+
   @media screen and (max-width: 1024px) {
-    .el-menu{
+    .el-menu {
       padding: 0;
     }
   }

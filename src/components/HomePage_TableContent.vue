@@ -1590,11 +1590,11 @@
       $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
     },
     mounted () {
+      var $table = $('#table')
+      var tableHeader
       window['popupContent'] = (e) => {
         this.popup(e)
       }
-      var $table = $('#table')
-      var tableHeader = $('#table th .th-inner')
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
       if (document.body.clientWidth > 1024) {
         $table.bootstrapTable('destroy').bootstrapTable({
@@ -1610,6 +1610,8 @@
           pageSize: 100,
           fixedNumber: 1
         })
+        tableHeader = $('#table th .th-inner')
+        // console.log(tableHeader)
         for (let i = 0; i < tableHeader.length; i++) {
           let temp = tableHeader[i].innerHTML
           if (linkheader.includes(temp)) {
@@ -1629,6 +1631,8 @@
           paginationVAlign: 'top',
           pageSize: 100
         })
+        tableHeader = $('#table th .th-inner')
+        // console.log(tableHeader)
         for (let i = 0; i < tableHeader.length; i++) {
           let temp = tableHeader[i].innerHTML
           if (linkheader.includes(temp)) {

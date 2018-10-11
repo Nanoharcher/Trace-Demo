@@ -1,69 +1,57 @@
 <template>
-  <div class="table-wrapper">
-    <div class="table-title">搜索结果</div>
-    <div class="divider"></div>
-    <div class="table-tools">
-      <el-row class="table-tools-columns">
-        <el-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18" class="table-tools-columns-dropdown">
-          <multiselect :limit-text="limitText" :maxHeight=200 @remove="onRemove" @select="onSelect" placeholder="搜索查找数据..." v-model="selected" :options="options" :limit="10" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="false" :preserve-search="true" label="label" track-by="label" :allow-empty="true" :preselect-first="false">
-          </multiselect>
-          <!--<pre class="language-json"><code>{{ selected  }}</code></pre>-->
-          <!--<pre class="language-json"><code>{{ selected.length  }}</code></pre>-->
-        </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" class="table-tools-columns-button">
-          <el-button type="success" @click="selectAll">全选</el-button>
-          <el-button type="danger" @click="removeAll">全部清空</el-button>
-        </el-col>
-      </el-row>
+    <div class="table-wrapper table-responsive">
+      <!--<div class="table-title">搜索结果</div>-->
+      <!--<div class="divider"></div>-->
+      <table id="table" data-show-columns="false"></table>
     </div>
-    <div id='example-table'></div>
-  </div>
 </template>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <script>
-  import Multiselect from 'vue-multiselect'
+  import 'bootstrap/dist/css/bootstrap.min.css'
+  import 'bootstrap-table/dist/bootstrap-table.min.css'
+  import 'bootstrap/dist/js/bootstrap.min'
+  import 'bootstrap-table/dist/bootstrap-table.min'
+  import '../../static/css/bootstrap-table-fixed-columns.css'
+  import '../../static/js/bootstrap-table-fixed-columns.js'
   import 'magnific-popup/dist/magnific-popup.css'
-  import 'tabulator-tables/dist/css/tabulator.min.css'
-  var Tabulator = require('tabulator-tables')
-  var table
   var tableheader = [
-    // { label: 'cuid', value: 'cuid' },
-    { label: 'nid', value: 'nid' },
-    { label: '顺序', value: 'order' },
-    { label: '标题', value: 'title' },
-    { label: '副标题', value: 'subtitle' },
-    { label: '日志类型', value: 'logType' },
-    { label: '日志时间', value: 'logDate' },
-    { label: '是否点击', value: 'click' },
-    { label: '是否展示', value: 'show' },
-    { label: 'attent', value: 'attention' },
-    { label: 'tag', value: 'tag' },
-    { label: '发布时间', value: 'publishDate' },
-    { label: '一级分类', value: 'firstCat' },
-    { label: '二级分类', value: 'secondCat' },
-    { label: '队列', value: 'queue' },
-    { label: '资源分类', value: 'resourceCat' },
-    { label: '推荐来源', value: 'feedSource' },
-    { label: 'tab页', value: 'tabPage' },
-    { label: '召回atte', value: 'callbackAttention' },
-    { label: '队列加权', value: 'queueWeightScore' },
-    { label: '原始', value: 'originalScore' },
-    { label: '资源来源', value: 'resSource' },
-    { label: '点击来源', value: 'clickSource' },
-    { label: '新闻类型', value: 'newsType' },
-    { label: 'AttRes', value: 'attRes' },
-    { label: '主机', value: 'host' },
-    { label: 'sign', value: 'sign' },
-    { label: '原始nid', value: 'originalnid' },
-    { label: '置顶', value: 'top' },
-    { label: '强插第二位', value: 'forceSecond' },
-    { label: 'session', value: 'session' },
-    { label: '刷新类型', value: 'refreshType' },
-    { label: 'logId', value: 'logId' },
-    { label: 'pipeCm', value: 'pipeCmd' },
-    { label: '原始日志', value: 'originalLog' },
-    { label: '刷新时间', value: 'refreshTime' },
-    { label: '召回点击来源', value: 'callbackClickSource' }
+    { title: 'cuid', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false },
+    { title: 'nid', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
+    { title: '顺序', field: 'order', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
+    { title: '标题', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '副标题', field: 'subtitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '日志类型', field: 'logType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '日志时间', field: 'logDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '是否点击', field: 'click', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '是否展示', field: 'show', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'attent', field: 'attention', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'tag', field: 'tag', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '发布时间', field: 'publishDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '一级分类', field: 'firstCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '二级分类', field: 'secondCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '队列', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '资源分类', field: 'resourceCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '推荐来源', field: 'feedSource', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'tab页', field: 'tabPage', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '召回atte', field: 'callbackAttention', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '队列加权', field: 'queueWeightScore', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '原始', field: 'originalScore', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '资源来源', field: 'resSource', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '点击来源', field: 'clickSource', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '新闻类型', field: 'newsType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'AttRes', field: 'attRes', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '主机', field: 'host', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'sign', field: 'sign', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '原始nid', field: 'originalnid', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '置顶', field: 'top', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '强插第二位', field: 'forceSecond', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'session', field: 'session', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '刷新类型', field: 'refreshType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'logId', field: 'logId', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'pipeCm', field: 'pipeCmd', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '原始日志', field: 'originalLog', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '刷新时间', field: 'refreshTime', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '操作', field: 'callbackClickSource', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: buttonFormatter }
   ]
   var tabledata = [
     {
@@ -103,7 +91,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -142,7 +130,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -181,7 +169,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -220,7 +208,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -259,7 +247,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -298,7 +286,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -337,7 +325,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -376,7 +364,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -415,7 +403,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -454,7 +442,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -493,7 +481,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -532,7 +520,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -571,7 +559,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -610,7 +598,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -649,7 +637,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -688,7 +676,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -727,7 +715,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -766,7 +754,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -805,7 +793,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -844,7 +832,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -883,7 +871,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -922,7 +910,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -961,7 +949,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1000,7 +988,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1039,7 +1027,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1078,7 +1066,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1117,7 +1105,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1156,7 +1144,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1195,7 +1183,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1234,7 +1222,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1273,7 +1261,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1312,7 +1300,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1351,7 +1339,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1390,7 +1378,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1429,7 +1417,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1468,7 +1456,7 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     },
     {
       cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
@@ -1507,195 +1495,151 @@
       pipeCmd: '列表页-展现',
       originalLog: '原始日志',
       refreshTime: '1538036254494',
-      callbackClickSource: '-'
-    },
-    {
-      cuid: 'F324960A842BF2B966E628446C2DE929B1E5E5A9AFHEKLAREFG',
-      nid: '2026646537427695349',
-      order: '60',
-      title: '罗文：美对华商品加征关税 给全球产业链带来重大冲击',
-      subtitle: '-',
-      logType: '展示',
-      logDate: '2018-09-27 17:01:42',
-      click: '否',
-      show: '是',
-      attention: '-',
-      tag: '[{\'宏观经济\':240},{\'产业链\':240},{\'罗文\':240},{\'关税\':140},{\'冲击\':106},{\'产业\':106},{\'商品\':103},{\'全球\':101}]',
-      publishDate: '2018-09-25 22:16:41',
-      firstCat: '财经',
-      secondCat: '宏观经济',
-      queue: '248',
-      resourceCat: '视频(小图)',
-      feedSource: '基于用户长期行为的语义(19)',
-      tabPage: '主feed',
-      callbackAttention: '[]',
-      queueWeightScore: '0.566443',
-      originalScore: '-',
-      resSource: 'baijiahao.baidu.com',
-      clickSource: 'index',
-      newsType: 'sv',
-      attRes: '-',
-      host: '-',
-      sign: '-',
-      originalnid: '',
-      top: '-',
-      forceSecond: '-',
-      session: '1538034323803',
-      refreshType: '按返回键提示再按一次退出时刷新14/大刷新',
-      logId: '1054360166',
-      pipeCmd: '列表页-展现',
-      originalLog: '原始日志',
-      refreshTime: '1538036254494',
-      callbackClickSource: '-'
+      callbackClickSource: '[操作1,操作2]'
     }
   ]
-  $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
-  window.popup = function (e) {
-    var data = $(e).attr('data-id')
-    if (data === '111') {
-      $.magnificPopup.open({
-        items: {
-          src: '<div class="white-popup">测试数据测试数据</div>',
-          type: 'inline',
-          closeOnContentClick: true,
-          image: {
-            verticalFit: true
-          }
-        }
-      })
-    }
-  }
-  export default {
-    name: 'Table',
-    components: { Multiselect },
-    methods: {
-      limitText (count) {
-        return `以及 ${count} 列`
-      },
-      onSelect (option) {
-        this.$nextTick(function () {
-          table.addData(tabledata)
-          table.showColumn(option.value)
-        })
-      },
-      onRemove (option) {
-        this.$nextTick(function () {
-          // console.log(this.selected.length)
-          // console.log(option.value)
-          table.hideColumn(option.value)
-          if (this.selected.length === 0) {
-            var columns = this.selected.map((item) => item.value)
-            for (let i = 0; i < columns.length; i++) {
-              table.hideColumn(columns[i])
-            }
-            table.clearData()
-          }
-        })
-      },
-      selectAll () {
-        this.selected = tableheader
-        table.addData(tabledata)
-        var columns = this.selected.map((item) => item.value)
-        for (let i = 0; i < columns.length; i++) {
-          table.showColumn(columns[i])
-        }
-      },
-      removeAll () {
-        var columns = this.selected.map((item) => item.value)
-        for (let i = 0; i < columns.length; i++) {
-          table.hideColumn(columns[i])
-        }
-        this.selected = []
-        table.clearData()
-      }
+  var popuptableheader = [
+    {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '性别', field: 'gender', class: 'text-nowrap', halign: 'center', valign: 'middle'}
+  ]
+  var popuptabledata = [
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
     },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    },
+    {
+      name: '马旭骁',
+      age: '25',
+      gender: '男'
+    }
+  ]
+  var linkheader = ['标题', '日志类型', 'tab页']
+  // eslint-disable-next-line no-unused-vars
+  function buttonFormatter (value, row) {
+    let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
+    var template = ''
+    for (let i = 0; i < buttonText.length; i++) {
+      if (buttonText[i] === '操作1') {
+        template += '<button onclick="popupContent(this)" class="el-button el-button--default el-button--mini popup-button" data-id="111">' + buttonText[i] + '</button>'
+      } else {
+        template += '<button onclick="popupContent(this)" class="el-button el-button--danger el-button--mini remove-button" data-id="222">' + buttonText[i] + '</button>'
+      }
+    }
+    return template
+  }
+  // eslint-disable-next-line no-unused-vars
+  function nidFormatter (value, row) {
+    var template = '<a target=\'_blank\' href=\'https://www.baidu.com/?' + value + '\'>' + value + '</a>'
+    return template
+  }
+
+  export default {
+    name: 'TableContent',
     data () {
       return {
-        selected: tableheader,
-        options: tableheader
+        tableheader: tableheader,
+        tabledata: tabledata,
+        popuptableheader: popuptableheader,
+        popuptabledata: popuptabledata
       }
     },
+    methods: {
+      popup (e) {
+        var data = $(e).attr('data-id')
+        if (data === '111') {
+          $.magnificPopup.open({
+            items: {
+              src: '<div class="white-popup"><table id="popup-table"></table></div>',
+              type: 'inline',
+              closeOnContentClick: true,
+              image: {
+                verticalFit: true
+              }
+            }
+          })
+          var $table = $('#popup-table')
+          $table.bootstrapTable('destroy').bootstrapTable({
+            columns: this.popuptableheader,
+            data: this.popuptabledata,
+            // search: true,
+            // pagination: true,
+            toolbar: '.toolbar'
+            // pageSize: 50,
+          })
+        }
+      }
+    },
+    created () {
+      $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
+    },
     mounted () {
-      table = new Tabulator('#example-table', {
-        layout: 'fitDataFill',
-        pagination: 'local',
-        height: 600,
-        paginationSize: 20,
-        movableColumns: true,
-        columns: [
-          {title: 'cuid', field: 'cuid', frozen: true, headerFilter: 'input'},
-          {title: 'nid', field: 'nid'},
-          {title: '顺序', field: 'order'},
-          {title: '标题', field: 'title', headerFilter: 'input'},
-          {title: '副标题', field: 'subtitle'},
-          {title: '日志类型', field: 'logType'},
-          {title: '日志时间', field: 'logDate', sorter: 'date'},
-          {title: '是否点击', field: 'click'},
-          {title: '是否展示', field: 'show'},
-          {title: 'attention', field: 'attention'},
-          {title: 'tag', field: 'tag'},
-          {title: '发布时间', field: 'publishDate', sorter: 'date'},
-          {title: '一级分类', field: 'firstCat'},
-          {title: '二级分类', field: 'secondCat'},
-          {title: '队列', field: 'queue'},
-          {title: '资源分类', field: 'resourceCat'},
-          {title: '推荐来源', field: 'feedSource'},
-          {title: 'tab页', field: 'tabPage'},
-          {title: '召回attention', field: 'callbackAttention'},
-          {title: '队列加权score', field: 'queueWeightScore'},
-          {title: '原始score', field: 'originalScore'},
-          {title: '资源来源', field: 'resSource'},
-          {title: '点击来源', field: 'clickSource'},
-          {title: '新闻类型', field: 'newsType'},
-          {title: 'AttRes', field: 'attRes'},
-          {title: '主机', field: 'host'},
-          {title: 'sign', field: 'sign'},
-          {title: '原始nid', field: 'originalnid'},
-          {title: '置顶', field: 'top'},
-          {title: '强插第二位', field: 'forceSecond'},
-          {title: 'session', field: 'session'},
-          {title: '刷新类型', field: 'refreshType'},
-          {title: 'logId', field: 'logId'},
-          {title: 'pipeCmd', field: 'pipeCmd'},
-          {title: '原始日志', field: 'originalLog'},
-          {title: '刷新时间', field: 'refreshTime'},
-          {title: '召回点击来源', field: 'callbackClickSource'},
-          {
-            title: '操作',
-            field: 'actions',
-            frozen: true,
-            formatter: function (cell, formatterParams) {
-              // var value = cell.getValue()
-              // console.log(value)
-              return '<button class="el-button--success" data-id="111" onclick="popup(this)">日志</button>&nbsp;<button class="el-button--warning" data-id="222" onclick="popup(this)">点展</button>'
-            }}
-        ]
-        // rowClick:function(e, row){
-        //     alert('Row ' + row.getData().id + ' Clicked!!!!');
-        // },
-      })
-      table.setData(tabledata)
-      $('.tabulator-footer').prepend('<span style="float: left;">当前:<span id="current-pages"></span>行&nbsp;&nbsp;&nbsp;显示<input id="page-selector" type="number" style="width:40px"><span>行</span><button id="paging">更改</button></span>')
-      // console.log(this.selected.length)
-      $('#current-pages').html(table.options.paginationSize)
-      $('#paging').click(function () {
-        var inputPages = $('#page-selector').val()
-        if (inputPages === '') {
-          alert('请输入页数!')
-        } else {
-          table.setPageSize(inputPages)
-          $('#current-pages').html(table.options.paginationSize)
+      var $table = $('#table')
+      var tableHeader
+      window['popupContent'] = (e) => {
+        this.popup(e)
+      }
+      $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
+      if (document.body.clientWidth > 1024) {
+        $table.bootstrapTable('destroy').bootstrapTable({
+          columns: this.tableheader,
+          data: this.tabledata,
+          // search: true,
+          pagination: true,
+          toolbar: '.toolbar',
+          fixedColumns: true,
+          paginationPreText: 'Previous',
+          paginationNextText: 'Next',
+          paginationVAlign: 'top',
+          pageSize: 100,
+          fixedNumber: 1
+        })
+        tableHeader = $('#table th .th-inner')
+        // console.log(tableHeader)
+        for (let i = 0; i < tableHeader.length; i++) {
+          let temp = tableHeader[i].innerHTML
+          if (linkheader.includes(temp)) {
+            tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+          }
         }
-      })
-      $('#paging').click(function () {
-        var inputPages = $('#page-selector').val()
-        if (inputPages === '') {
-          alert('请输入页数!')
-        } else {
-          table.setPageSize(inputPages)
-          $('#current-pages').html(table.options.paginationSize)
+      } else {
+        $table.bootstrapTable('destroy').bootstrapTable({
+          columns: this.tableheader,
+          data: this.tabledata,
+          // search: true,
+          pagination: true,
+          toolbar: '.toolbar',
+          fixedColumns: false,
+          paginationPreText: 'Previous',
+          paginationNextText: 'Next',
+          paginationVAlign: 'top',
+          pageSize: 100
+        })
+        tableHeader = $('#table th .th-inner')
+        // console.log(tableHeader)
+        for (let i = 0; i < tableHeader.length; i++) {
+          let temp = tableHeader[i].innerHTML
+          if (linkheader.includes(temp)) {
+            tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+          }
         }
-      })
+      }
     }
   }
 </script>
@@ -1703,13 +1647,8 @@
 <style scoped>
   .table-wrapper{
     width: 100%;
-    padding: 20px;
-    margin-top:20px;
+    padding: 10px;
     box-sizing:border-box;
-    border: 1px solid rgba(7,17,27,0.2);
-  }
-  #example-table{
-    margin-top: 20px;
   }
   .table-title{
     font-size:24px;
@@ -1720,11 +1659,7 @@
     margin: 5px 0;
     border: 1px solid rgba(7,17,27,0.2);
   }
-  .table-tools-columns-dropdown{
-    padding: 10px;
-  }
-  .table-tools-columns-button{
-    padding: 10px;
-    text-align: center;
+  .fixed-table-pagination .dropdown-menu{
+    z-index: 88;
   }
 </style>
