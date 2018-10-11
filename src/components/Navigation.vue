@@ -17,24 +17,24 @@
       </el-submenu>
       <el-submenu index="2">
         <template slot="title"><span class="navigation-title">在线模块</span></template>
-        <el-menu-item index="2-1">下发点展日志</el-menu-item>
+        <el-menu-item index="/grClickShow">下发点展日志</el-menu-item>
         <el-menu-item index="2-2">队列召回日志</el-menu-item>
         <el-menu-item index="2-3">bs/urs召回日志</el-menu-item>
         <el-menu-item index="2-4">在线日志</el-menu-item>
       </el-submenu>
       <el-submenu index="3">
         <template slot="title"><span class="navigation-title">用户模型</span></template>
-        <el-menu-item index="3-1">用户模型扫码</el-menu-item>
-        <el-menu-item index="3-2">用户模型</el-menu-item>
+        <el-menu-item index="3-1"><a href="http://ftrace.baidu.com/ums/cuid.html" target="_blank">用户模型扫码</a></el-menu-item>
+        <el-menu-item index="3-2"><a href="http://ftrace.baidu.com/ums/cm.html" target="_blank">用户模型</a></el-menu-item>
       </el-submenu>
       <el-submenu index="4">
         <template slot="title"><span class="navigation-title">资源流</span></template>
-        <el-menu-item index="4-1">正排数据查询</el-menu-item>
-        <el-menu-item index="4-2">数据流查询</el-menu-item>
+        <el-menu-item index="4-1"><a href="http://ftrace.baidu.com/zpSearch" target="_blank">正排数据查询</a></el-menu-item>
+        <el-menu-item index="4-2"><a href="http://showx.baidu.com/group/gfeedtrace/report/11060" target="_blank">数据流查询</a></el-menu-item>
       </el-submenu>
       <el-submenu index="5">
         <template slot="title"><span class="navigation-title">Debug</span></template>
-        <el-menu-item index="5-1">Debug</el-menu-item>
+        <el-menu-item index="5-1"><a href="http://fdebug.baidu.com/" target="_blank">Debug</a></el-menu-item>
       </el-submenu>
       <el-submenu index="6">
         <template slot="title"><span class="navigation-title">实验室</span></template>
@@ -43,8 +43,8 @@
       </el-submenu>
       <el-submenu index="7">
         <template slot="title"><span class="navigation-title">工具箱</span></template>
-        <el-menu-item index="7-1">OpenAPI文档</el-menu-item>
-        <el-menu-item index="7-2">Trace帮助</el-menu-item>
+        <el-menu-item index="7-1"><a href="http://ftrace.baidu.com/api-trace.html" target="_blank">OpenAPI文档</a></el-menu-item>
+        <el-menu-item index="7-2"><a href="http://wiki.baidu.com/pages/viewpage.action?pageId=304748805" target="_blank">Trace帮助</a></el-menu-item>
         <el-menu-item index="7-3">截屏定位cuid</el-menu-item>
         <el-menu-item index="7-4">nid批量查询</el-menu-item>
         <el-menu-item index="7-5">用户命中小流量</el-menu-item>
