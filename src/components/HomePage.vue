@@ -221,7 +221,7 @@
           $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
           if (document.body.clientWidth > 1024) {
             $table.bootstrapTable('destroy').bootstrapTable({
-              columns: this.tableheader,
+              columns: tableheader,
               data: res.data,
               // search: true,
               pagination: true,
@@ -243,7 +243,7 @@
             }
           } else {
             $table.bootstrapTable('destroy').bootstrapTable({
-              columns: this.tableheader,
+              columns: tableheader,
               data: res.data,
               // search: true,
               pagination: true,
