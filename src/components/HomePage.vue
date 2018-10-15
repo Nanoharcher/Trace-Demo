@@ -77,7 +77,6 @@
   import '../../static/css/bootstrap-table-fixed-columns.css'
   import '../../static/js/bootstrap-table-fixed-columns.js'
   import 'magnific-popup/dist/magnific-popup.css'
-  var $table = $('#table')
   var tableHeader = [
     { title: '序号', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false },
     { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
@@ -216,6 +215,7 @@
           changeOrigin: true
         }).then(function (res) {
           var loadedTableHeaders
+          var $table = $('#table')
           console.log(res.data)
           $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
           if (document.body.clientWidth > 1024) {
@@ -307,6 +307,7 @@
       }
     },
     mounted () {
+      var $table = $('#table')
       window['popupContent'] = (e) => {
         this.popup(e)
       }
@@ -314,8 +315,8 @@
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
       if (document.body.clientWidth > 1024) {
         $table.bootstrapTable('destroy').bootstrapTable({
-          columns: this.tableheader,
-          data: this.tabledata,
+          columns: tableHeader,
+          data: [],
           // search: true,
           pagination: true,
           toolbar: '.toolbar',
@@ -336,8 +337,8 @@
         }
       } else {
         $table.bootstrapTable('destroy').bootstrapTable({
-          columns: this.tableheader,
-          data: this.tabledata,
+          columns: tableHeader,
+          data: [],
           // search: true,
           pagination: true,
           toolbar: '.toolbar',
