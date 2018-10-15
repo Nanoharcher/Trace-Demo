@@ -78,21 +78,20 @@
   import '../../static/js/bootstrap-table-fixed-columns.js'
   import 'magnific-popup/dist/magnific-popup.css'
   var tableHeader = [
-    { title: '序号', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false },
     { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '标题/URL', field: 'order', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
-    { title: '副标题', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '发布时间', field: 'subtitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '来源站点', field: 'logType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '状态', field: 'logDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '动作', field: 'click', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '屏蔽状态', field: 'show', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '审核状态', field: 'attention', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '错误码', field: 'tag', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'BS入库', field: 'publishDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '优质', field: 'firstCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'groupkey', field: 'secondCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '操作', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle' }
+    { title: '标题/URL', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
+    { title: '副标题', field: 'secondTitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '发布时间', field: 'publicTime', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '来源站点', field: 'site', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '状态', field: 'state', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '动作', field: 'action', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '屏蔽状态', field: 'delTag', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '审核状态', field: 'auditStatus', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '错误码', field: 'errorCode', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'BS入库', field: 'bsDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '优质', field: 'highQualityDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'groupkey', field: 'groupKey', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '操作', field: 'test', class: 'text-nowrap', halign: 'center', valign: 'middle' }
   ]
   var popuptableheader = [
     {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
