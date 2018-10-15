@@ -77,6 +77,7 @@
   import '../../static/css/bootstrap-table-fixed-columns.css'
   import '../../static/js/bootstrap-table-fixed-columns.js'
   import 'magnific-popup/dist/magnific-popup.css'
+
   var tableHeader = [
     { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '标题/URL', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
@@ -207,12 +208,11 @@
         if (this.form['state'] === '') {
           this.form['state'] = 0
         }
-        console.log(this.form)
+        // console.log(this.qs.stringify(this.form))
         this.$http({
           method: 'get',
-          url: 'http://10.95.114.105:8080/indexList',
-          changeOrigin: true,
-          data: this.form
+          url: 'http://10.95.114.105:8080/indexList?' + this.qs.stringify(this.form),
+          changeOrigin: true
         }).then(function (res) {
           var loadedTableHeaders
           var $table = $('#table')
