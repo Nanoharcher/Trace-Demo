@@ -77,7 +77,8 @@
   import '../../static/css/bootstrap-table-fixed-columns.css'
   import '../../static/js/bootstrap-table-fixed-columns.js'
   import 'magnific-popup/dist/magnific-popup.css'
-  var tableheader = [
+  var $table = $('#table')
+  var tableHeader = [
     { title: '序号', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false },
     { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
     { title: '标题/URL', field: 'order', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
@@ -94,7 +95,6 @@
     { title: 'groupkey', field: 'secondCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '操作', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: buttonFormatter }
   ]
-  var tabledata = []
   var popuptableheader = [
     {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
     {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
@@ -175,8 +175,8 @@
     name: 'Search',
     data () {
       return {
-        tableheader: tableheader,
-        tabledata: tabledata,
+        tableheader: tableHeader,
+        tabledata: tableHeader,
         popuptableheader: popuptableheader,
         popuptabledata: popuptabledata,
         form: {
@@ -215,13 +215,12 @@
           url: 'http://10.95.114.105:8080/indexList?title=ai&state=0',
           changeOrigin: true
         }).then(function (res) {
+          var loadedTableHeaders
           console.log(res.data)
-          var $table = $('#table')
-          var tableHeader
           $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
           if (document.body.clientWidth > 1024) {
             $table.bootstrapTable('destroy').bootstrapTable({
-              columns: tableheader,
+              columns: tableHeader,
               data: res.data,
               // search: true,
               pagination: true,
@@ -233,17 +232,17 @@
               pageSize: 100,
               fixedNumber: 1
             })
-            tableHeader = $('#table th .th-inner')
+            loadedTableHeaders = $('#table th .th-inner')
             // console.log(tableHeader)
-            for (let i = 0; i < tableHeader.length; i++) {
-              let temp = tableHeader[i].innerHTML
+            for (let i = 0; i < loadedTableHeaders.length; i++) {
+              let temp = loadedTableHeaders[i].innerHTML
               if (linkheader.includes(temp)) {
-                tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+                loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
               }
             }
           } else {
             $table.bootstrapTable('destroy').bootstrapTable({
-              columns: tableheader,
+              columns: tableHeader,
               data: res.data,
               // search: true,
               pagination: true,
@@ -254,12 +253,12 @@
               paginationVAlign: 'top',
               pageSize: 100
             })
-            tableHeader = $('#table th .th-inner')
+            loadedTableHeaders = $('#table th .th-inner')
             // console.log(tableHeader)
-            for (let i = 0; i < tableHeader.length; i++) {
-              let temp = tableHeader[i].innerHTML
+            for (let i = 0; i < loadedTableHeaders.length; i++) {
+              let temp = loadedTableHeaders[i].innerHTML
               if (linkheader.includes(temp)) {
-                tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+                loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
               }
             }
           }
@@ -311,8 +310,7 @@
       window['popupContent'] = (e) => {
         this.popup(e)
       }
-      var $table = $('#table')
-      var tableHeader
+      var loadedTableHeaders
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
       if (document.body.clientWidth > 1024) {
         $table.bootstrapTable('destroy').bootstrapTable({
@@ -328,12 +326,12 @@
           pageSize: 100,
           fixedNumber: 1
         })
-        tableHeader = $('#table th .th-inner')
+        loadedTableHeaders = $('#table th .th-inner')
         // console.log(tableHeader)
-        for (let i = 0; i < tableHeader.length; i++) {
-          let temp = tableHeader[i].innerHTML
+        for (let i = 0; i < loadedTableHeaders.length; i++) {
+          let temp = loadedTableHeaders[i].innerHTML
           if (linkheader.includes(temp)) {
-            tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+            loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
           }
         }
       } else {
@@ -349,12 +347,12 @@
           paginationVAlign: 'top',
           pageSize: 100
         })
-        tableHeader = $('#table th .th-inner')
+        loadedTableHeaders = $('#table th .th-inner')
         // console.log(tableHeader)
-        for (let i = 0; i < tableHeader.length; i++) {
-          let temp = tableHeader[i].innerHTML
+        for (let i = 0; i < loadedTableHeaders.length; i++) {
+          let temp = loadedTableHeaders[i].innerHTML
           if (linkheader.includes(temp)) {
-            tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+            loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
           }
         }
       }
