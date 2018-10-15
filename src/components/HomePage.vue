@@ -210,8 +210,9 @@
         console.log(this.form)
         this.$http({
           method: 'get',
-          url: 'http://10.95.114.105:8080/indexList?title=ai&state=0',
-          changeOrigin: true
+          url: 'http://10.95.114.105:8080/indexList',
+          changeOrigin: true,
+          data: this.form
         }).then(function (res) {
           var loadedTableHeaders
           var $table = $('#table')
