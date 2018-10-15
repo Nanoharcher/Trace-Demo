@@ -6,9 +6,9 @@
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
               <el-form-item label="ID">
-                <el-input placeholder="请输入内容" v-model="form.searchid" class="input-with-select">
-                  <el-select v-model="form.select" slot="prepend" placeholder="请选择">
-                    <el-option label="uid" value="uid"></el-option>
+                <el-input placeholder="请输入内容" v-model="form.searchid">
+                  <el-select v-model="form.select" slot="prepend" placeholder="请选择" class="input-with-select">
+                    <el-option label="uid" value="nid"></el-option>
                     <el-option label="articleid" value="articleid"></el-option>
                   </el-select>
                 </el-input>
@@ -33,9 +33,9 @@
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
               <el-form-item label="状态">
-                <el-select v-model="form.status" placeholder="请选择状态" class="single-selector">
-                  <el-option label="正常" value="normal"></el-option>
-                  <el-option label="异常" value="abnormal"></el-option>
+                <el-select v-model="form.state" placeholder="请选择状态" class="single-selector">
+                  <el-option label="正常" value="1"></el-option>
+                  <el-option label="异常" value="2"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -53,7 +53,7 @@
             <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9" class="search-item">
               <el-row type="flex" justify="center" class="search-buttons">
                 <el-button type="primary" @click="onSubmit">搜索</el-button>
-                <el-button type="primary">重置</el-button>
+                <el-button type="primary" @click="onReset">重置</el-button>
                 <el-button type="primary">导出</el-button>
               </el-row>
             </el-col>
@@ -180,12 +180,16 @@
         popuptableheader: popuptableheader,
         popuptabledata: popuptabledata,
         form: {
-          searchid: '',
           select: 'uid',
+          searchid: '',
+          nid: '',
+          articleid: '',
           url: '',
           title: '',
           subtitle: '',
-          status: '',
+          state: '0',
+          startTime: '',
+          endTime: '',
           timerange: [new Date(), new Date()]
         }
       }
@@ -197,16 +201,39 @@
       onSubmit () {
         this.form['startTime'] = getTime(this.form.timerange[0])
         this.form['endTime'] = getTime(this.form.timerange[1])
+        if (this.form['select'] === 'uid') {
+          this.form['nid'] = this.form['searchid']
+        } else {
+          this.form['articleid'] = this.form['searchid']
+        }
+        if (this.form['state'] === '') {
+          this.form['state'] = 0
+        }
         console.log(this.form)
         this.$http({
           method: 'get',
           url: 'http://10.95.114.105:8080/indexList?title=ai&state=0',
           changeOrigin: true
         }).then(function (res) {
-          console.log(res)
+          console.log(res.data)
         }).catch(function (err) {
           console.log(err)
         })
+      },
+      onReset () {
+        this.form = {
+          select: 'uid',
+            searchid: '',
+            nid: '',
+            articleid: '',
+            url: '',
+            title: '',
+            subtitle: '',
+            state: '',
+            startTime: '',
+            endTime: '',
+            timerange: [new Date(), new Date()]
+        }
       },
       popup (e) {
         var data = $(e).attr('data-id')
@@ -302,10 +329,6 @@
     font-weight: 700;
   }
 
-  .el-select .el-input {
-    width: 100px;
-  }
-
   .single-selector {
     width: 100%;
   }
@@ -325,11 +348,13 @@
   .el-input-group .el-input-group__prepend {
     color: #000;
   }
-
   .el-form-item {
     margin-bottom: 0 !important;
   }
 
+  .input-with-select{
+    width: 100px!important;
+  }
   .divider {
     margin: 5px 0;
     border: 1px solid rgba(7, 17, 27, 0.2);
