@@ -216,6 +216,53 @@
           changeOrigin: true
         }).then(function (res) {
           console.log(res.data)
+          var $table = $('#table')
+          var tableHeader
+          $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
+          if (document.body.clientWidth > 1024) {
+            $table.bootstrapTable('destroy').bootstrapTable({
+              columns: this.tableheader,
+              data: res.data,
+              // search: true,
+              pagination: true,
+              toolbar: '.toolbar',
+              fixedColumns: true,
+              paginationPreText: 'Previous',
+              paginationNextText: 'Next',
+              paginationVAlign: 'top',
+              pageSize: 100,
+              fixedNumber: 1
+            })
+            tableHeader = $('#table th .th-inner')
+            // console.log(tableHeader)
+            for (let i = 0; i < tableHeader.length; i++) {
+              let temp = tableHeader[i].innerHTML
+              if (linkheader.includes(temp)) {
+                tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+              }
+            }
+          } else {
+            $table.bootstrapTable('destroy').bootstrapTable({
+              columns: this.tableheader,
+              data: res.data,
+              // search: true,
+              pagination: true,
+              toolbar: '.toolbar',
+              fixedColumns: false,
+              paginationPreText: 'Previous',
+              paginationNextText: 'Next',
+              paginationVAlign: 'top',
+              pageSize: 100
+            })
+            tableHeader = $('#table th .th-inner')
+            // console.log(tableHeader)
+            for (let i = 0; i < tableHeader.length; i++) {
+              let temp = tableHeader[i].innerHTML
+              if (linkheader.includes(temp)) {
+                tableHeader[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+              }
+            }
+          }
         }).catch(function (err) {
           console.log(err)
         })
@@ -261,11 +308,11 @@
       }
     },
     mounted () {
-      var $table = $('#table')
-      var tableHeader
       window['popupContent'] = (e) => {
         this.popup(e)
       }
+      var $table = $('#table')
+      var tableHeader
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
       if (document.body.clientWidth > 1024) {
         $table.bootstrapTable('destroy').bootstrapTable({
