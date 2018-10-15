@@ -126,7 +126,6 @@
       gender: '男'
     }
   ]
-  var linkheader = ['标题', '日志类型', 'tab页']
   // eslint-disable-next-line no-unused-vars
   function nidFormatter (value, row) {
     var template = '<a target=\'_blank\' href=\'http://ftrace.baidu.com/zpNewInfo?' + value + '&s=1\'>' + value + '</a>'
@@ -238,11 +237,15 @@
               fixedNumber: 1
             })
             loadedTableHeaders = $('#table th .th-inner')
-            // console.log(tableHeader)
+            console.log(loadedTableHeaders)
             for (let i = 0; i < loadedTableHeaders.length; i++) {
               let temp = loadedTableHeaders[i].innerHTML
-              if (linkheader.includes(temp)) {
-                loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+              if (temp === '动作') {
+                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
+              } else if (temp === '屏蔽状态') {
+                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
+              } else if (temp === 'BS入库') {
+                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
               }
             }
           } else {
@@ -259,11 +262,15 @@
               pageSize: 100
             })
             loadedTableHeaders = $('#table th .th-inner')
-            // console.log(tableHeader)
+            console.log(loadedTableHeaders)
             for (let i = 0; i < loadedTableHeaders.length; i++) {
               let temp = loadedTableHeaders[i].innerHTML
-              if (linkheader.includes(temp)) {
-                loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+              if (temp === '动作') {
+                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
+              } else if (temp === '屏蔽状态') {
+                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
+              } else if (temp === 'BS入库') {
+                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
               }
             }
           }
@@ -333,11 +340,14 @@
           fixedNumber: 1
         })
         loadedTableHeaders = $('#table th .th-inner')
-        // console.log(tableHeader)
         for (let i = 0; i < loadedTableHeaders.length; i++) {
           let temp = loadedTableHeaders[i].innerHTML
-          if (linkheader.includes(temp)) {
-            loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+          if (temp === '动作') {
+            loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
+          } else if (temp === '屏蔽状态') {
+            loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
+          } else if (temp === 'BS入库') {
+            loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
           }
         }
       } else {
@@ -354,11 +364,14 @@
           pageSize: 100
         })
         loadedTableHeaders = $('#table th .th-inner')
-        // console.log(tableHeader)
         for (let i = 0; i < loadedTableHeaders.length; i++) {
           let temp = loadedTableHeaders[i].innerHTML
-          if (linkheader.includes(temp)) {
-            loadedTableHeaders[i].innerHTML = '<a href="https://www.baidu.com" target="_blank">' + temp + '</a>'
+          if (temp === '动作') {
+            loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
+          } else if (temp === '屏蔽状态') {
+            loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
+          } else if (temp === 'BS入库') {
+            loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
           }
         }
       }
