@@ -79,7 +79,7 @@
   import 'magnific-popup/dist/magnific-popup.css'
   var tableHeader = [
     { title: '序号', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false },
-    { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
+    { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '标题/URL', field: 'order', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
     { title: '副标题', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '发布时间', field: 'subtitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
@@ -92,7 +92,7 @@
     { title: 'BS入库', field: 'publishDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '优质', field: 'firstCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: 'groupkey', field: 'secondCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '操作', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: buttonFormatter }
+    { title: '操作', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle' }
   ]
   var popuptableheader = [
     {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
@@ -128,18 +128,18 @@
   ]
   var linkheader = ['标题', '日志类型', 'tab页']
   // eslint-disable-next-line no-unused-vars
-  function buttonFormatter (value, row) {
-    let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
-    var template = ''
-    for (let i = 0; i < buttonText.length; i++) {
-      if (buttonText[i] === '操作1') {
-        template += '<button onclick="popupContent(this)" class="el-button el-button--default el-button--mini popup-button" data-id="111">' + buttonText[i] + '</button>'
-      } else {
-        template += '<button onclick="popupContent(this)" class="el-button el-button--danger el-button--mini remove-button" data-id="222">' + buttonText[i] + '</button>'
-      }
-    }
-    return template
-  }
+  // function buttonFormatter (value, row) {
+  //   let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
+  //   var template = ''
+  //   for (let i = 0; i < buttonText.length; i++) {
+  //     if (buttonText[i] === '操作1') {
+  //       template += '<button onclick="popupContent(this)" class="el-button el-button--default el-button--mini popup-button" data-id="111">' + buttonText[i] + '</button>'
+  //     } else {
+  //       template += '<button onclick="popupContent(this)" class="el-button el-button--danger el-button--mini remove-button" data-id="222">' + buttonText[i] + '</button>'
+  //     }
+  //   }
+  //   return template
+  // }
   // eslint-disable-next-line no-unused-vars
   function nidFormatter (value, row) {
     var template = '<a target=\'_blank\' href=\'https://www.baidu.com/?' + value + '\'>' + value + '</a>'
