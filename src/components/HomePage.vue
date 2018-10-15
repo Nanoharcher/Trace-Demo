@@ -79,7 +79,7 @@
   import 'magnific-popup/dist/magnific-popup.css'
 
   var tableHeader = [
-    { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
     { title: '标题/URL', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
     { title: '副标题', field: 'secondTitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '发布时间', field: 'publicTime', class: 'text-nowrap', halign: 'center', valign: 'middle' },
@@ -128,6 +128,11 @@
   ]
   var linkheader = ['标题', '日志类型', 'tab页']
   // eslint-disable-next-line no-unused-vars
+  function nidFormatter (value, row) {
+    var template = '<a target=\'_blank\' href=\'http://ftrace.baidu.com/zpNewInfo?' + value + '&s=1\'>' + value + '</a>'
+    return template
+  }
+  // eslint-disable-next-line no-unused-vars
   // function buttonFormatter (value, row) {
   //   let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
   //   var template = ''
@@ -140,11 +145,6 @@
   //   }
   //   return template
   // }
-  // eslint-disable-next-line no-unused-vars
-  function nidFormatter (value, row) {
-    var template = '<a target=\'_blank\' href=\'https://www.baidu.com/?' + value + '\'>' + value + '</a>'
-    return template
-  }
   function getTime (obj) {
     var year = obj.getFullYear()
     var mon = obj.getMonth() + 1
