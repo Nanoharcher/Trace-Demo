@@ -16,7 +16,7 @@
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
               <el-form-item label="URL">
-                <el-input v-model="form.url" placeholder="请输入URL"></el-input>
+                <el-input v-model="form.url" placeholder="请输入URL" id="url"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
@@ -92,7 +92,7 @@
     { title: 'BS入库', field: 'bsDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '优质', field: 'highQualityDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: 'groupkey', field: 'groupKey', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '操作', field: 'test', class: 'text-nowrap', halign: 'center', valign: 'middle' }
+    { title: '操作', field: 'actions', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: actionsFormatter }
   ]
   var popuptableheader = [
     {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
@@ -143,20 +143,11 @@
     var template = '<a target=\'_blank\' onclick=\'popupdelTag("' + row['nid'] + '",this)\'>' + value + '</a>'
     return template
   }
-
-  // eslint-disable-next-line no-unused-vars
-  // function buttonFormatter (value, row) {
-  //   let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
-  //   var template = ''
-  //   for (let i = 0; i < buttonText.length; i++) {
-  //     if (buttonText[i] === '操作1') {
-  //       template += '<button onclick="popupContent(this)" class="el-button el-button--default el-button--mini popup-button" data-id="111">' + buttonText[i] + '</button>'
-  //     } else {
-  //       template += '<button onclick="popupContent(this)" class="el-button el-button--danger el-button--mini remove-button" data-id="222">' + buttonText[i] + '</button>'
-  //     }
-  //   }
-  //   return template
-  // }
+  function actionsFormatter (value, row, index, field) {
+    let template = ''
+    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + ',' + this.form.url + '","' + 0 + '","' + this.form.startTime + '","' + this.form.endTime + '")\' class=\'el-button el-button--default el-button--mini popup-button\'>日志</button>'
+    return template
+  }
   function getTime (obj) {
     var year = obj.getFullYear()
     var mon = obj.getMonth() + 1
@@ -339,12 +330,21 @@
         }).catch(function (err) {
           console.log(err)
         })
+      },
+      linkToTraceLog (nid, title, url, type, startDate, endDate) {
+        url = encodeURIComponent(url)
+        // var path = "traceLog?nid=" + nid + "&title=&type=" + type + "&url=" + escape(url) + "&startDate=" + startDate + "&endDate=" + endDate;
+        var path = 'traceLog?nid=' + nid + '&title=&type=' + type + '&url=' + url + '&startDate=' + startDate + '&endDate=' + endDate
+        window.open(path)
       }
     },
     mounted () {
       var $table = $('#table')
       window['popupdelTag'] = (e) => {
         this.popupdelTag(e)
+      }
+      window['popupdelTag'] = (e) => {
+        this.linkToTraceLog(e)
       }
       var loadedTableHeaders
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
