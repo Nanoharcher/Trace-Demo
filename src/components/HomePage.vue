@@ -145,7 +145,7 @@
   }
   function actionsFormatter (value, row, index, field) {
     let template = ''
-    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + ',' + this.form.url + '","' + 0 + '","' + this.form.startTime + '","' + this.form.endTime + '")\' class=\'el-button el-button--default el-button--mini popup-button\'>日志</button>'
+    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + ',' + 'test' + '","' + 0 + '","' + 'test2' + '","' + 'test3' + '")\' class=\'el-button el-button--default el-button--mini popup-button\'>日志</button>'
     return template
   }
   function getTime (obj) {
