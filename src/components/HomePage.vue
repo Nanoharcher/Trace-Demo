@@ -221,7 +221,7 @@
       }
     },
     created () {
-      $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }</style>')
+      $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }.mfp-wrap .zoom-anim-dialog { opacity: 0; -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; -webkit-transform: scale(0.8); -moz-transform: scale(0.8); -ms-transform: scale(0.8); -o-transform: scale(0.8); transform: scale(0.8); } .mfp-wrap.mfp-ready .zoom-anim-dialog { opacity: 1; -webkit-transform: scale(1); -moz-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1); } .mfp-wrap.mfp-removing .zoom-anim-dialog { -webkit-transform: scale(0.8); -moz-transform: scale(0.8); -ms-transform: scale(0.8); -o-transform: scale(0.8); transform: scale(0.8); opacity: 0; }</style>')
     },
     methods: {
       onSubmit () {
@@ -369,11 +369,11 @@
         window.open(path)
       },
       popupauditStatus (operator, occrTimeStr, name) {
-        console.log('----------------')
-        console.log(operator)
-        console.log(occrTimeStr)
-        console.log(name)
-        console.log('----------------')
+        // console.log('----------------')
+        // console.log(operator)
+        // console.log(occrTimeStr)
+        // console.log(name)
+        // console.log('----------------')
         var popuptableheader = [
           {title: '动作', field: 'operator', class: 'text-nowrap', halign: 'center', valign: 'middle'},
           {title: '时间', field: 'occrTimeStr', class: 'text-nowrap', halign: 'center', valign: 'middle'},
