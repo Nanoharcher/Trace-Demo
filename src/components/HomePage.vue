@@ -87,7 +87,7 @@
     { title: '状态', field: 'state', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '动作', field: 'action', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '屏蔽状态', field: 'delTag', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: degTagFormatter },
-    { title: '审核状态', field: 'auditStatus', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '审核状态', field: 'auditStatus', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: auditStatusFormatter },
     { title: '错误码', field: 'errorCode', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: 'BS入库', field: 'bsDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '优质', field: 'highQualityDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
@@ -140,13 +140,34 @@
     return template
   }
   function degTagFormatter (value, row, index, field) {
-    var template = '<a target=\'_blank\' onclick=\'popupdelTag("' + row['nid'] + '",this)\'>' + value + '</a>'
+    var template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupdelTag("' + row['nid'] + '",this)\'>' + value + '</a>'
     return template
   }
   function actionsFormatter (value, row, index, field) {
-    let template = ''
+    var template = ''
     // template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + '","' + '0' + '","' + $('.el-range-input').val() + '","' + $('.el-range-input').val() + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
     template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","","' + row['url'] + '","0","' + $('.el-range-input').val() + '","' + $('.el-range-input:eq(1)').val() + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
+    return template
+  }
+  function auditStatusFormatter (value, row, index, field) {
+    var template = ''
+    if (row['actionList']) {
+      if (row['actionList'].length === 1) {
+        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + row['actionList']['operator'] + '","' + row['actionList']['occrTimeStr'] + '","' + row['actionList']['name'] + '")\'>' + value + '</a>'
+      } else {
+        var len = row['actionList'].length
+        var operatorArray = []
+        var occrTimeStrArray = []
+        var nameArray = []
+        for (let m = 0; m < len; m++) {
+          operatorArray.push(row['actionList'][m]['operator'])
+          occrTimeStrArray.push(row['actionList'][m]['occrTimeStr'])
+          nameArray.push(row['actionList'][m]['name'])
+        }
+        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + operatorArray + '","' + occrTimeStrArray + '","' + nameArray + '")\'>' + value + '</a>'
+      }
+    }
+
     return template
   }
   function getTime (obj) {
@@ -330,20 +351,60 @@
         })
       },
       linkToTraceLog (nid, title, url, type, startDate, endDate) {
-        console.log('----------------')
-        console.log(nid)
-        console.log(title)
-        console.log(url)
-        console.log(type)
-        console.log(startDate)
-        console.log(endDate)
-        console.log('----------------')
+        // console.log('----------------')
+        // console.log(nid)
+        // console.log(title)
+        // console.log(url)
+        // console.log(type)
+        // console.log(startDate)
+        // console.log(endDate)
+        // console.log('----------------')
         var inputUrl = $('#url').val()
         var finalurl = url + ',' + inputUrl
         finalurl = encodeURIComponent(finalurl)
         // var path = "traceLog?nid=" + nid + "&title=&type=" + type + "&url=" + escape(url) + "&startDate=" + startDate + "&endDate=" + endDate;
         var path = 'http://ftrace.baidu.com/traceLog?nid=' + nid + '&title=&type=' + type + '&url=' + finalurl + '&startDate=' + startDate + '&endDate=' + endDate
         window.open(path)
+      },
+      popupauditStatus (operator, occrTimeStr, name) {
+        console.log('----------------')
+        console.log(operator)
+        console.log(occrTimeStr)
+        console.log(name)
+        console.log('----------------')
+        var popuptableheader = [
+          {title: '动作', field: 'operator', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+          {title: '时间', field: 'occrTimeStr', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+          {title: '结果', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'}
+        ]
+        var popuptabledata = {}
+        if (Object.prototype.toString.call(operator) === '[object Array]') {
+          for (let i = 0; i < operator.length; i++) {
+            popuptabledata[i]['operator'] = operator[i]
+            popuptabledata[i]['occrTimeStr'] = occrTimeStr[i]
+            popuptabledata[i]['name'] = name[i]
+          }
+        } else {
+          popuptabledata['operator'] = operator
+          popuptabledata['occrTimeStr'] = occrTimeStr
+          popuptabledata['name'] = name
+        }
+        $.magnificPopup.open({
+          items: {
+            src: '<div class="white-popup"><table id="popup-table-auditStatus"></table></div>',
+            type: 'inline',
+            closeOnContentClick: true,
+            image: {
+              verticalFit: true
+            }
+          }
+        })
+        var auditStatustable = $('#popup-table-auditStatus')
+        auditStatustable.bootstrapTable('destroy').bootstrapTable({
+          columns: popuptableheader,
+          data: popuptabledata,
+          toolbar: '.toolbar'
+        })
       }
     },
     mounted () {
