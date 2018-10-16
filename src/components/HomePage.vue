@@ -154,7 +154,8 @@
     if (row['actionList']) {
       if (row['actionList'].length === 1) {
         template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + row['actionList'][0]['operator'] + '","' + row['actionList'][0]['occrTimeStr'] + '","' + row['actionList'][0]['name'] + '")\'>' + value + '</a>'
-      } else {
+        return template
+      } else if (row['actionList'].length > 1) {
         var len = row['actionList'].length
         var operatorArray = []
         var occrTimeStrArray = []
@@ -164,12 +165,11 @@
           occrTimeStrArray.push(row['actionList'][m]['occrTimeStr'])
           nameArray.push(row['actionList'][m]['name'])
         }
-        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus(' + operatorArray + ',' + occrTimeStrArray + ',' + nameArray + ')\'>' + value + '</a>'
+        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + operatorArray + '","' + occrTimeStrArray + '","' + nameArray + '")\'>' + value + '</a>'
+        return template
+      } else {
+        return value
       }
-      return template
-    } else {
-      template = value
-      return template
     }
   }
   function getTime (obj) {
@@ -380,7 +380,10 @@
           {title: '结果', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'}
         ]
         var popuptabledata = {}
-        if (Object.prototype.toString.call(operator) === '[object Array]') {
+        if (operator.indexOf(',') > -1) {
+          operator = operator.split(',')
+          occrTimeStr = occrTimeStr.split(',')
+          name = name.split(',')
           for (let i = 0; i < operator.length; i++) {
             popuptabledata[i]['operator'] = operator[i]
             popuptabledata[i]['occrTimeStr'] = occrTimeStr[i]
@@ -402,6 +405,7 @@
           }
         })
         var auditStatustable = $('#popup-table-auditStatus')
+        console.log(popuptabledata)
         auditStatustable.bootstrapTable('destroy').bootstrapTable({
           columns: popuptableheader,
           data: popuptabledata,
