@@ -83,10 +83,10 @@
     { title: '标题/URL', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: titleFormatter },
     { title: '副标题', field: 'secondTitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '发布时间', field: 'publicTime', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '来源站点', field: 'site', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '来源站点', field: 'site', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: siteFormatter },
     { title: '状态', field: 'state', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '动作', field: 'action', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '屏蔽状态', field: 'delTag', class: 'text-nowrap', halign: 'center', valign: 'middle' },
+    { title: '屏蔽状态', field: 'delTag', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: degTagFormatter },
     { title: '审核状态', field: 'auditStatus', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '错误码', field: 'errorCode', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: 'BS入库', field: 'bsDB', class: 'text-nowrap', halign: 'center', valign: 'middle' },
@@ -133,6 +133,14 @@
   }
   function titleFormatter (value, row, index, field) {
     var template = '<a target=\'_blank\' href=\'' + row['url'] + '\'>' + value + '</a>'
+    return template
+  }
+  function siteFormatter (value, row, index, field) {
+    var template = '<a target=\'_blank\' href=\'http://ftrace.baidu.com/bjauthor?' + value + '\'>' + value + '</a>'
+    return template
+  }
+  function degTagFormatter (value, row, index, field) {
+    var template = '<a target=\'_blank\' onclick=\'popupdelTag("' + row['nid'] + '",this)\'>' + value + '</a>'
     return template
   }
 
@@ -218,7 +226,7 @@
         console.log(this.qs.stringify(this.form))
         this.$http({
           method: 'get',
-          url: 'http://sh01-www-mola0117.sh01.baidu.com:8081/indexList?' + this.qs.stringify(this.form),
+          url: 'http://10.95.114.105:8080/indexList?' + this.qs.stringify(this.form),
           changeOrigin: true
         }).then(function (res) {
           var loadedTableHeaders
@@ -296,9 +304,19 @@
             timerange: [new Date(new Date() - (7 * 24 * 3600 * 1000)), new Date()]
         }
       },
-      popup (e) {
-        var data = $(e).attr('data-id')
-        if (data === '111') {
+      popupdelTag (nid, e) {
+        this.$http({
+          method: 'get',
+          url: 'http://ftrace.baidu.com//trace/getIntervene?nid=' + nid,
+          changeOrigin: true
+        }).then(function (res) {
+          var popuptableheader = [
+            {title: '时间', field: 'delTime', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+            {title: '状态', field: 'delTag', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+            {title: '来源', field: 'delSrc', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+            {title: '操作人', field: 'delUser', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+            {title: '原因', field: 'delInfo', class: 'text-nowrap', halign: 'center', valign: 'middle'}
+          ]
           $.magnificPopup.open({
             items: {
               src: '<div class="white-popup"><table id="popup-table"></table></div>',
@@ -311,20 +329,22 @@
           })
           var $table = $('#popup-table')
           $table.bootstrapTable('destroy').bootstrapTable({
-            columns: this.popuptableheader,
-            data: this.popuptabledata,
+            columns: popuptableheader,
+            data: res.data,
             // search: true,
             // pagination: true,
             toolbar: '.toolbar'
             // pageSize: 50,
           })
-        }
+        }).catch(function (err) {
+          console.log(err)
+        })
       }
     },
     mounted () {
       var $table = $('#table')
-      window['popupContent'] = (e) => {
-        this.popup(e)
+      window['popupdelTag'] = (e) => {
+        this.popupdelTag(e)
       }
       var loadedTableHeaders
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
