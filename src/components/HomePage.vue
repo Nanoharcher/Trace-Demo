@@ -145,7 +145,8 @@
   }
   function actionsFormatter (value, row, index, field) {
     let template = ''
-    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + '","' + '0' + '","' + $('.el-range-input').val() + '","' + $('.el-range-input').val() + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
+    // template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + '","' + '0' + '","' + $('.el-range-input').val() + '","' + $('.el-range-input').val() + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
+    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","","' + row['url'] + '","0","' + $('.el-range-input').val() + '","' + $('.el-range-input:eq(1)').val() + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
     return template
   }
   function getTime (obj) {
@@ -329,9 +330,11 @@
         })
       },
       linkToTraceLog (nid, title, url, type, startDate, endDate) {
-        url = encodeURIComponent(url)
+        var inputUrl = $('#url').val()
+        var finalurl = url + ',' + inputUrl
+        finalurl = encodeURIComponent(finalurl)
         // var path = "traceLog?nid=" + nid + "&title=&type=" + type + "&url=" + escape(url) + "&startDate=" + startDate + "&endDate=" + endDate;
-        var path = 'http://ftrace.baidu.com/traceLog?nid=' + nid + '&title=&type=' + type + '&url=' + url + '&startDate=' + startDate + '&endDate=' + endDate
+        var path = 'http://ftrace.baidu.com/traceLog?nid=' + nid + '&title=&type=' + type + '&url=' + finalurl + '&startDate=' + startDate + '&endDate=' + endDate
         window.open(path)
       }
     },
