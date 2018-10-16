@@ -193,7 +193,7 @@
           state: '0',
           startTime: '',
           endTime: '',
-          timerange: [new Date(), new Date()]
+          timerange: [new Date(new Date() - (7 * 24 * 3600 * 1000)), new Date()]
         }
       }
     },
@@ -290,7 +290,7 @@
             state: '',
             startTime: '',
             endTime: '',
-            timerange: [new Date(), new Date()]
+            timerange: [new Date(new Date() - (7 * 24 * 3600 * 1000)), new Date()]
         }
       },
       popup (e) {
