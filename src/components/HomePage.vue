@@ -153,7 +153,7 @@
     var template = ''
     if (row['actionList']) {
       if (row['actionList'].length === 1) {
-        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + row['actionList']['operator'] + '","' + row['actionList']['occrTimeStr'] + '","' + row['actionList']['name'] + '")\'>' + value + '</a>'
+        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + row['actionList'][0]['operator'] + '","' + row['actionList'][0]['occrTimeStr'] + '","' + row['actionList'][0]['name'] + '")\'>' + value + '</a>'
       } else {
         var len = row['actionList'].length
         var operatorArray = []
@@ -164,11 +164,12 @@
           occrTimeStrArray.push(row['actionList'][m]['occrTimeStr'])
           nameArray.push(row['actionList'][m]['name'])
         }
-        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + operatorArray + '","' + occrTimeStrArray + '","' + nameArray + '")\'>' + value + '</a>'
+        template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus(' + operatorArray + ',' + occrTimeStrArray + ',' + nameArray + ')\'>' + value + '</a>'
       }
       return template
     } else {
-      return value
+      template = value
+      return template
     }
   }
   function getTime (obj) {
