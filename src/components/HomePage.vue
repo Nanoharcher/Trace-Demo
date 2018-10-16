@@ -212,10 +212,13 @@
         if (this.form['state'] === '') {
           this.form['state'] = 0
         }
-        // console.log(this.qs.stringify(this.form))
+        delete this.form['searchid']
+        delete this.form['timerange']
+        delete this.form['select']
+        console.log(this.qs.stringify(this.form))
         this.$http({
           method: 'get',
-          url: 'http://10.95.114.105:8080/indexList?' + this.qs.stringify(this.form),
+          url: 'http://sh01-www-mola0117.sh01.baidu.com:8081/indexList?' + this.qs.stringify(this.form),
           changeOrigin: true
         }).then(function (res) {
           var loadedTableHeaders
