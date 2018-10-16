@@ -351,8 +351,8 @@
       window['popupdelTag'] = (e) => {
         this.popupdelTag(e)
       }
-      window['linkToTraceLog'] = (e) => {
-        this.linkToTraceLog(e)
+      window['linkToTraceLog'] = (nid, title, url, type, startDate, endDate) => {
+        this.linkToTraceLog(nid, title, url, type, startDate, endDate)
       }
       var loadedTableHeaders
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
