@@ -145,7 +145,7 @@
   }
   function actionsFormatter (value, row, index, field) {
     let template = ''
-    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + '' + '","' + row['url'] + ',' + '' + '","' + 0 + '","' + 'test1' + '","' + 'test2' + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
+    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + row['title'] + '","' + row['url'] + '","' + '0' + '","' + $('.el-range-input').val() + '","' + $('.el-range-input').val() + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
     return template
   }
   function getTime (obj) {
@@ -211,9 +211,6 @@
         if (this.form['state'] === '') {
           this.form['state'] = 0
         }
-        delete this.form['searchid']
-        delete this.form['timerange']
-        delete this.form['select']
         console.log(this.qs.stringify(this.form))
         this.$http({
           method: 'get',
@@ -334,7 +331,7 @@
       linkToTraceLog (nid, title, url, type, startDate, endDate) {
         url = encodeURIComponent(url)
         // var path = "traceLog?nid=" + nid + "&title=&type=" + type + "&url=" + escape(url) + "&startDate=" + startDate + "&endDate=" + endDate;
-        var path = 'traceLog?nid=' + nid + '&title=&type=' + type + '&url=' + url + '&startDate=' + startDate + '&endDate=' + endDate
+        var path = 'http://ftrace.baidu.com/traceLog?nid=' + nid + '&title=&type=' + type + '&url=' + url + '&startDate=' + startDate + '&endDate=' + endDate
         window.open(path)
       }
     },
