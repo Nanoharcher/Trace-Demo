@@ -379,20 +379,24 @@
           {title: '时间', field: 'occrTimeStr', class: 'text-nowrap', halign: 'center', valign: 'middle'},
           {title: '结果', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'}
         ]
-        var popuptabledata = {}
+        var popuptabledata = []
         if (operator.indexOf(',') > -1) {
           operator = operator.split(',')
           occrTimeStr = occrTimeStr.split(',')
           name = name.split(',')
           for (let i = 0; i < operator.length; i++) {
-            popuptabledata[i]['operator'] = operator[i]
-            popuptabledata[i]['occrTimeStr'] = occrTimeStr[i]
-            popuptabledata[i]['name'] = name[i]
+            var temp = {}
+            temp['operator'] = operator[i]
+            temp['occrTimeStr'] = occrTimeStr[i]
+            temp['name'] = name[i]
+            popuptabledata.push(temp)
           }
         } else {
-          popuptabledata['operator'] = operator
-          popuptabledata['occrTimeStr'] = occrTimeStr
-          popuptabledata['name'] = name
+          var temp2 = {}
+          temp2['operator'] = operator
+          temp2['occrTimeStr'] = occrTimeStr
+          temp2['name'] = name
+          popuptabledata.push(temp2)
         }
         $.magnificPopup.open({
           items: {
