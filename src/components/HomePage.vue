@@ -166,9 +166,10 @@
         }
         template = '<a target=\'_blank\' style=\'cursor:pointer\'onclick=\'popupauditStatus("' + operatorArray + '","' + occrTimeStrArray + '","' + nameArray + '")\'>' + value + '</a>'
       }
+      return template
+    } else {
+      return value
     }
-
-    return template
   }
   function getTime (obj) {
     var year = obj.getFullYear()
@@ -414,6 +415,9 @@
       }
       window['linkToTraceLog'] = (nid, title, url, type, startDate, endDate) => {
         this.linkToTraceLog(nid, title, url, type, startDate, endDate)
+      }
+      window['popupauditStatus'] = (operator, occrTimeStr, name) => {
+        this.popupauditStatus(operator, occrTimeStr, name)
       }
       var loadedTableHeaders
       $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
