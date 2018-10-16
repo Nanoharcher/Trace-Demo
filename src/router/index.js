@@ -8,7 +8,6 @@ import GRClickShow from '@/components/GRClickShow'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [
     {path: '/', name: 'HomePage', component: HomePage, meta: {title: 'Trace平台'}},
     {path: '/mlSearch', name: 'MLSearch', component: MLSearch, meta: {title: 'Trace平台-精排日志检索'}},
