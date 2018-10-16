@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <div class="search-wrapper">
-        <el-form ref="form" :model="form" label-width="80px" label-position="left">
+        <el-form ref="form" :model="form" label-width="80px" label-position="left" @submit.native.prevent>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="search-item">
               <el-form-item label="ID">
@@ -145,7 +145,7 @@
   }
   function actionsFormatter (value, row, index, field) {
     let template = ''
-    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + '' + '","' + row['url'] + ',' + '' + '","' + 0 + '","' + 'test1' + '","' + 'test2' + '")\' class=\'el-button el-button--default el-button--mini popup-button\'>日志</button>'
+    template += '<button onclick=\'linkToTraceLog("' + row['nid'] + '","' + '' + '","' + row['url'] + ',' + '' + '","' + 0 + '","' + 'test1' + '","' + 'test2' + '")\' class=\'el-button el-button--primary el-button--mini popup-button\'>日志</button>'
     return template
   }
   function getTime (obj) {
