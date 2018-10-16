@@ -330,6 +330,14 @@
         })
       },
       linkToTraceLog (nid, title, url, type, startDate, endDate) {
+        console.log('----------------')
+        console.log(nid)
+        console.log(title)
+        console.log(url)
+        console.log(type)
+        console.log(startDate)
+        console.log(endDate)
+        console.log('----------------')
         var inputUrl = $('#url').val()
         var finalurl = url + ',' + inputUrl
         finalurl = encodeURIComponent(finalurl)
