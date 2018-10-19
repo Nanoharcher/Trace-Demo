@@ -57,6 +57,7 @@
             <el-button type="primary">重置</el-button>
             <el-button type="primary">线上模型Sample</el-button>
             <el-button type="primary">指定模型Sample</el-button>
+            <el-button type="primary" @click="exportdata">导出</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -117,6 +118,15 @@
         // }).catch(function (err) {
         //   console.log(err)
         // })
+      },
+      exportdata () {
+        $('#table').tableExport(
+          {
+            fileName: '下载数据',
+            type: 'excel',
+            escape: 'false'
+          }
+        )
       }
     }
   }

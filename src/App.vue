@@ -2,7 +2,7 @@
   <div id="app">
     <el-container>
       <el-header class="header-wrapper">
-        <div class="logo-wrapper" onclick="document.location.href='/'">
+        <div class="logo-wrapper" onclick="document.location.href='/Trace-Demo/#/'">
           <!--<i class="glyphicon glyphicon-inbox"></i>-->
           <span class="logo-title">Trace平台</span>
         </div>
@@ -35,7 +35,16 @@
 
 <script>
   import Navigation from '@/components/Navigation'
-
+  import 'bootstrap/dist/css/bootstrap.min.css'
+  import 'bootstrap-table/dist/bootstrap-table.min.css'
+  import 'bootstrap/dist/js/bootstrap.min'
+  import 'bootstrap-table/dist/bootstrap-table.min'
+  import '../static/css/bootstrap-table-fixed-columns.css'
+  import '../static/js/bootstrap-table-fixed-columns.js'
+  import 'magnific-popup/dist/magnific-popup.css'
+  import 'bootstrap-table/dist/locale/bootstrap-table-zh-CN.min'
+  import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+  import 'bootstrap-select/dist/js/bootstrap-select.min'
   export default {
     name: 'App',
     data () {

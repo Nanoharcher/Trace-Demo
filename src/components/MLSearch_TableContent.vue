@@ -1,9 +1,9 @@
 <template>
-    <div class="table-wrapper table-responsive">
-      <!--<div class="table-title">搜索结果</div>-->
-      <!--<div class="divider"></div>-->
-      <table id="table" data-show-columns="false"></table>
-    </div>
+  <div class="table-wrapper table-responsive">
+    <!--<div class="table-title">搜索结果</div>-->
+    <!--<div class="divider"></div>-->
+    <table id="table" data-show-columns="false"></table>
+  </div>
 </template>
 
 <script>
@@ -14,44 +14,56 @@
   import '../../static/css/bootstrap-table-fixed-columns.css'
   import '../../static/js/bootstrap-table-fixed-columns.js'
   import 'magnific-popup/dist/magnific-popup.css'
+  import '../../static/js/bootstrap-table-export'
+  import '../../static/js/tableExport.min'
+  import '../../static/js/xlsx.core.min'
+  import '../../static/js/FileSaver.min'
+
   var tableheader = [
-    { title: 'cuid', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false },
-    { title: 'nid', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
-    { title: '顺序', field: 'order', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true },
-    { title: '标题', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '副标题', field: 'subtitle', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '日志类型', field: 'logType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '日志时间', field: 'logDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '是否点击', field: 'click', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '是否展示', field: 'show', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'attent', field: 'attention', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'tag', field: 'tag', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '发布时间', field: 'publishDate', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '一级分类', field: 'firstCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '二级分类', field: 'secondCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '队列', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '资源分类', field: 'resourceCat', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '推荐来源', field: 'feedSource', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'tab页', field: 'tabPage', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '召回atte', field: 'callbackAttention', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '队列加权', field: 'queueWeightScore', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '原始', field: 'originalScore', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '资源来源', field: 'resSource', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '点击来源', field: 'clickSource', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '新闻类型', field: 'newsType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'AttRes', field: 'attRes', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '主机', field: 'host', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'sign', field: 'sign', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '原始nid', field: 'originalnid', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '置顶', field: 'top', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '强插第二位', field: 'forceSecond', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'session', field: 'session', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '刷新类型', field: 'refreshType', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'logId', field: 'logId', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: 'pipeCm', field: 'pipeCmd', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '原始日志', field: 'originalLog', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '刷新时间', field: 'refreshTime', class: 'text-nowrap', halign: 'center', valign: 'middle' },
-    { title: '操作', field: 'callbackClickSource', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: buttonFormatter }
+    {title: 'cuid', field: 'cuid', class: 'text-nowrap', halign: 'center', valign: 'middle', switchable: false},
+    {title: 'nid', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter},
+    {title: '顺序', field: 'order', class: 'text-nowrap', halign: 'center', valign: 'middle', sortable: true},
+    {title: '标题', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '副标题', field: 'subtitle', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '日志类型', field: 'logType', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '日志时间', field: 'logDate', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '是否点击', field: 'click', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '是否展示', field: 'show', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'attent', field: 'attention', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'tag', field: 'tag', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '发布时间', field: 'publishDate', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '一级分类', field: 'firstCat', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '二级分类', field: 'secondCat', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '队列', field: 'queue', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '资源分类', field: 'resourceCat', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '推荐来源', field: 'feedSource', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'tab页', field: 'tabPage', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '召回atte', field: 'callbackAttention', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '队列加权', field: 'queueWeightScore', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '原始', field: 'originalScore', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '资源来源', field: 'resSource', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '点击来源', field: 'clickSource', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '新闻类型', field: 'newsType', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'AttRes', field: 'attRes', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '主机', field: 'host', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'sign', field: 'sign', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '原始nid', field: 'originalnid', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '置顶', field: 'top', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '强插第二位', field: 'forceSecond', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'session', field: 'session', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '刷新类型', field: 'refreshType', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'logId', field: 'logId', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: 'pipeCm', field: 'pipeCmd', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '原始日志', field: 'originalLog', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {title: '刷新时间', field: 'refreshTime', class: 'text-nowrap', halign: 'center', valign: 'middle'},
+    {
+      title: '操作',
+      field: 'callbackClickSource',
+      class: 'text-nowrap',
+      halign: 'center',
+      valign: 'middle',
+      formatter: buttonFormatter
+    }
   ]
   var tabledata = [
     {
@@ -1530,7 +1542,26 @@
       gender: '男'
     }
   ]
+
+  function phoneOrPc () {
+    var sUserAgent = navigator.userAgent.toLowerCase()
+    var bIsIpad = sUserAgent.match(/ipad/i) === 'ipad'
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) === 'iphone os'
+    var bIsMidp = sUserAgent.match(/midp/i) === 'midp'
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) === 'rv:1.2.3.4'
+    var bIsUc = sUserAgent.match(/ucweb/i) === 'ucweb'
+    var bIsAndroid = sUserAgent.match(/android/i) === 'android'
+    var bIsCE = sUserAgent.match(/windows ce/i) === 'windows ce'
+    var bIsWM = sUserAgent.match(/windows mobile/i) === 'windows mobile'
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   var linkheader = ['标题', '日志类型', 'tab页']
+
   // eslint-disable-next-line no-unused-vars
   function buttonFormatter (value, row) {
     let buttonText = value.replace(/\[|\]|\s+/g, '').split(',')
@@ -1544,6 +1575,7 @@
     }
     return template
   }
+
   // eslint-disable-next-line no-unused-vars
   function nidFormatter (value, row) {
     var template = '<a target=\'_blank\' href=\'https://www.baidu.com/?' + value + '\'>' + value + '</a>'
@@ -1608,7 +1640,18 @@
           paginationNextText: 'Next',
           paginationVAlign: 'top',
           pageSize: 100,
-          fixedNumber: 1
+          fixedNumber: 1,
+          showExport: phoneOrPc(),
+          exportDataType: 'all',
+          exportTypes: ['excel', 'xlsx'],
+          exportButton: $('#btn_export'),
+          exportOptions: {
+            // ignoreColumn: [0,0],
+            fileName: '数据导出',
+            worksheetName: 'Sheet1',
+            tableName: '商品数据表',
+            excelstyles: ['background-color', 'color', 'font-size', 'font-weight']
+          }
         })
         tableHeader = $('#table th .th-inner')
         // console.log(tableHeader)
@@ -1629,7 +1672,18 @@
           paginationPreText: 'Previous',
           paginationNextText: 'Next',
           paginationVAlign: 'top',
-          pageSize: 100
+          pageSize: 100,
+          showExport: phoneOrPc(),
+          exportDataType: 'all',
+          exportTypes: ['excel', 'xlsx'],
+          exportButton: $('#btn_export'),
+          exportOptions: {
+            // ignoreColumn: [0,0],
+            fileName: '数据导出',
+            worksheetName: 'Sheet1',
+            tableName: '商品数据表',
+            excelstyles: ['background-color', 'color', 'font-size', 'font-weight']
+          }
         })
         tableHeader = $('#table th .th-inner')
         // console.log(tableHeader)
@@ -1645,21 +1699,24 @@
 </script>
 
 <style scoped>
-  .table-wrapper{
+  .table-wrapper {
     width: 100%;
     padding: 10px;
-    box-sizing:border-box;
+    box-sizing: border-box;
   }
-  .table-title{
-    font-size:24px;
-    font-weight:700;
-    text-align:center;
+
+  .table-title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
   }
-  .divider{
+
+  .divider {
     margin: 5px 0;
-    border: 1px solid rgba(7,17,27,0.2);
+    border: 1px solid rgba(7, 17, 27, 0.2);
   }
-  .fixed-table-pagination .dropdown-menu{
+
+  .fixed-table-pagination .dropdown-menu {
     z-index: 88;
   }
 </style>

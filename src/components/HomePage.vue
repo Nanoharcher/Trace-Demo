@@ -54,7 +54,7 @@
               <el-row type="flex" justify="center" class="search-buttons">
                 <el-button type="primary" @click="onSubmit">搜索</el-button>
                 <el-button type="primary" @click="onReset">重置</el-button>
-                <el-button type="primary">导出</el-button>
+                <el-button type="primary" @click="exportdata">导出</el-button>
               </el-row>
             </el-col>
           </el-row>
@@ -63,21 +63,13 @@
     </el-container>
     <el-container>
       <div class="table-wrapper table-responsive">
-        <table id="table" data-show-columns="false"></table>
+        <table id="table" data-show-columns="false" data-locale="zh-CN"></table>
       </div>
     </el-container>
   </div>
 </template>
 
 <script>
-  import 'bootstrap/dist/css/bootstrap.min.css'
-  import 'bootstrap-table/dist/bootstrap-table.min.css'
-  import 'bootstrap/dist/js/bootstrap.min'
-  import 'bootstrap-table/dist/bootstrap-table.min'
-  import '../../static/css/bootstrap-table-fixed-columns.css'
-  import '../../static/js/bootstrap-table-fixed-columns.js'
-  import 'magnific-popup/dist/magnific-popup.css'
-
   var tableHeader = [
     { title: 'nid(attention链接)', field: 'nid', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: nidFormatter },
     { title: '标题/URL', field: 'title', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: titleFormatter },
@@ -94,38 +86,8 @@
     { title: 'groupkey', field: 'groupKey', class: 'text-nowrap', halign: 'center', valign: 'middle' },
     { title: '操作', field: 'actions', class: 'text-nowrap', halign: 'center', valign: 'middle', formatter: actionsFormatter }
   ]
-  var popuptableheader = [
-    {title: '姓名', field: 'name', class: 'text-nowrap', halign: 'center', valign: 'middle'},
-    {title: '年龄', field: 'age', class: 'text-nowrap', halign: 'center', valign: 'middle'},
-    {title: '性别', field: 'gender', class: 'text-nowrap', halign: 'center', valign: 'middle'}
-  ]
-  var popuptabledata = [
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    },
-    {
-      name: '马旭骁',
-      age: '25',
-      gender: '男'
-    }
-  ]
+  var traceHomepageTableHead = JSON.stringify(tableHeader)
+  localStorage.setItem('traceHomepageTableHead', traceHomepageTableHead)
   // eslint-disable-next-line no-unused-vars
   function nidFormatter (value, row) {
     var template = '<a target=\'_blank\' href=\'http://ftrace.baidu.com/zpNewInfo?' + value + '&s=1\'>' + value + '</a>'
@@ -198,13 +160,9 @@
   }
 
   export default {
-    name: 'Search',
+    name: 'HomePage',
     data () {
       return {
-        tableheader: tableHeader,
-        tabledata: tableHeader,
-        popuptableheader: popuptableheader,
-        popuptabledata: popuptabledata,
         form: {
           select: 'uid',
           searchid: '',
@@ -224,6 +182,15 @@
       $('head').append('<style>.white-popup { position: relative; background: #FFF; padding: 20px; width: auto; max-width: 500px; margin: 20px auto; }.mfp-wrap .zoom-anim-dialog { opacity: 0; -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; -webkit-transform: scale(0.8); -moz-transform: scale(0.8); -ms-transform: scale(0.8); -o-transform: scale(0.8); transform: scale(0.8); } .mfp-wrap.mfp-ready .zoom-anim-dialog { opacity: 1; -webkit-transform: scale(1); -moz-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1); } .mfp-wrap.mfp-removing .zoom-anim-dialog { -webkit-transform: scale(0.8); -moz-transform: scale(0.8); -ms-transform: scale(0.8); -o-transform: scale(0.8); transform: scale(0.8); opacity: 0; }</style>')
     },
     methods: {
+      exportdata () {
+        $('#table').tableExport(
+          {
+            fileName: '下载数据',
+            type: 'excel',
+            escape: 'false'
+          }
+        )
+      },
       onSubmit () {
         this.form['startTime'] = getTime(this.form.timerange[0])
         this.form['endTime'] = getTime(this.form.timerange[1])
@@ -236,66 +203,68 @@
           this.form['state'] = 0
         }
         console.log(this.qs.stringify(this.form))
+        $('#table').bootstrapTable('showLoading')
         this.$http({
           method: 'get',
-          url: 'http://10.95.114.105:8080/indexList?' + this.qs.stringify(this.form),
+          url: 'http://10.95.114.105:8080/articles?' + this.qs.stringify(this.form),
           changeOrigin: true
         }).then(function (res) {
-          var loadedTableHeaders
-          var $table = $('#table')
-          console.log(res.data)
-          $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
-          if (document.body.clientWidth > 1024) {
-            $table.bootstrapTable('destroy').bootstrapTable({
-              columns: tableHeader,
-              data: res.data,
-              // search: true,
-              pagination: true,
-              toolbar: '.toolbar',
-              fixedColumns: true,
-              paginationPreText: 'Previous',
-              paginationNextText: 'Next',
-              paginationVAlign: 'top',
-              pageSize: 100,
-              fixedNumber: 1
-            })
-            loadedTableHeaders = $('#table th .th-inner')
-            console.log(loadedTableHeaders)
-            for (let i = 0; i < loadedTableHeaders.length; i++) {
-              let temp = loadedTableHeaders[i].innerHTML
-              if (temp === '动作') {
-                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
-              } else if (temp === '屏蔽状态') {
-                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
-              } else if (temp === 'BS入库') {
-                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
+          if (res.data['message'] === 'success') {
+            var loadedTableHeaders
+            var $table = $('#table')
+            console.log(res.data)
+            $('head').append('<style>.th-inner{color: #909399;font-weight:700;}</style>')
+            if (document.body.clientWidth > 1024) {
+              $table.bootstrapTable('destroy').bootstrapTable({
+                columns: tableHeader,
+                data: res.data['data'],
+                // search: true,
+                pagination: true,
+                toolbar: '.toolbar',
+                fixedColumns: true,
+                paginationVAlign: 'top',
+                pageSize: 100,
+                fixedNumber: 1
+              })
+              loadedTableHeaders = $('#table th .th-inner')
+              console.log(loadedTableHeaders)
+              for (let i = 0; i < loadedTableHeaders.length; i++) {
+                let temp = loadedTableHeaders[i].innerHTML
+                if (temp === '动作') {
+                  loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
+                } else if (temp === '屏蔽状态') {
+                  loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
+                } else if (temp === 'BS入库') {
+                  loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
+                }
+              }
+            } else {
+              $table.bootstrapTable('destroy').bootstrapTable({
+                columns: tableHeader,
+                data: res.data['data'],
+                // search: true,
+                pagination: true,
+                toolbar: '.toolbar',
+                fixedColumns: false,
+                paginationVAlign: 'top',
+                pageSize: 100
+              })
+              loadedTableHeaders = $('#table th .th-inner')
+              console.log(loadedTableHeaders)
+              for (let i = 0; i < loadedTableHeaders.length; i++) {
+                let temp = loadedTableHeaders[i].innerHTML
+                if (temp === '动作') {
+                  loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
+                } else if (temp === '屏蔽状态') {
+                  loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
+                } else if (temp === 'BS入库') {
+                  loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
+                }
               }
             }
+            $('#table').bootstrapTable('hideLoading')
           } else {
-            $table.bootstrapTable('destroy').bootstrapTable({
-              columns: tableHeader,
-              data: res.data,
-              // search: true,
-              pagination: true,
-              toolbar: '.toolbar',
-              fixedColumns: false,
-              paginationPreText: 'Previous',
-              paginationNextText: 'Next',
-              paginationVAlign: 'top',
-              pageSize: 100
-            })
-            loadedTableHeaders = $('#table th .th-inner')
-            console.log(loadedTableHeaders)
-            for (let i = 0; i < loadedTableHeaders.length; i++) {
-              let temp = loadedTableHeaders[i].innerHTML
-              if (temp === '动作') {
-                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=373268324" target="_blank">' + temp + '</a>'
-              } else if (temp === '屏蔽状态') {
-                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=452840410" target="_blank">' + temp + '</a>'
-              } else if (temp === 'BS入库') {
-                loadedTableHeaders[i].innerHTML = '<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=457513838" target="_blank">' + temp + '</a>'
-              }
-            }
+            alert('Failed to connect to server...Please try again later!')
           }
         }).catch(function (err) {
           console.log(err)
@@ -438,8 +407,6 @@
           pagination: true,
           toolbar: '.toolbar',
           fixedColumns: true,
-          paginationPreText: 'Previous',
-          paginationNextText: 'Next',
           paginationVAlign: 'top',
           pageSize: 100,
           fixedNumber: 1
@@ -463,8 +430,6 @@
           pagination: true,
           toolbar: '.toolbar',
           fixedColumns: false,
-          paginationPreText: 'Previous',
-          paginationNextText: 'Next',
           paginationVAlign: 'top',
           pageSize: 100
         })
@@ -531,7 +496,6 @@
 
   .table-wrapper{
     width: 100%;
-    padding: 10px;
     box-sizing:border-box;
   }
   .table-title{
